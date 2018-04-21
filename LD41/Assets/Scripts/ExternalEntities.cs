@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    class ExternalEntities : Entities
+    public class ExternalEntities : Entities
     {
     }
 }
