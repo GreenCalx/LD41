@@ -66,14 +66,17 @@ public class Sequence : MonoBehaviour
                     HO._is_hittable = true;
                 }
             }
+        }
+    }
 
-            foreach (HitObject HO in HitObjects)
+    public void Pick()
+    {
+        foreach (HitObject HO in HitObjects)
+        {
+            if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
             {
-                if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
-                {
-                    //Hit
-                    HO.OnHit();
-                }
+                //Hit
+                HO.OnHit();
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    class Building
+    class Building : PointOfInterest
     {
     }
 }

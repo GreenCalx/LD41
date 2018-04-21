@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Fretboard : MonoBehaviour {
 
-    public Sequence s;
+    public Sequence _sequence;
+    public Pick _pick;
 
 	// Use this for initialization
 	void Start () {
-        s = gameObject.AddComponent<Sequence>();
+        _sequence = gameObject.AddComponent<Sequence>();
+        _pick = gameObject.AddComponent<Pick>();
+        _pick._fretboard = this;
         Init();
     }
 
     private void Init()
     {
-        s.Begin();
+        _sequence.Begin();
     }
     // Update is called once per frame
     void Update () {
