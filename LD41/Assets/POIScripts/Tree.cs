@@ -8,6 +8,7 @@ namespace Buildings
 {
     public class Tree : PointOfInterest
     {
-
+        public Ressource.TYPE ressourceType = Ressource.TYPE.WOOD;
+        public int ressource_units_pool = 2000;
     }
 }
