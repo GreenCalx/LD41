@@ -24,6 +24,20 @@ public class HitObject : MonoBehaviour {
     {
         _is_hittable = true;
         //_is_alive = true;
+        SpriteRenderer sr = _sprite.GetComponent<SpriteRenderer>();
+        if (sr)
+        {
+            Bounds b = sr.bounds;
+            float max = b.max.x;
+            float min = b.min.x;
+
+            float ppu = sr.sprite.pixelsPerUnit;
+
+            float pps = 0.00075f;
+            float ppsSize = pps* _size;
+            float ppsSizeScale = ppsSize * ppu;
+            sr.transform.localScale = new Vector3(ppsSizeScale, sr.transform.localScale.y, sr.transform.localScale.z);
+        }
     }
 
     public void Init()

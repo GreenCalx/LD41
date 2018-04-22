@@ -16,7 +16,9 @@ public class Fretboard : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _pick = gameObject.AddComponent<Pick>();
+        _pick._sprite = (GameObject)Instantiate(_HitSprite);
         _pick._fretboard = this;
+        _pick._sprite.transform.position = new Vector3(-0.6f, _pick.transform.position.y, _pick.transform.position.z);
 
         _sequence = gameObject.AddComponent<Sequence>();
         _sequence._sprite = _HitSprite;
@@ -96,13 +98,13 @@ public class Fretboard : MonoBehaviour {
     {
         float current_time = _sequence._Time_Since_Start;
         float current_time_clipped = HO._offset - current_time;
-        if (current_time_clipped > 0)
+        //if (current_time_clipped > 0)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null)
             {
                 float size = sr.bounds.max.x - sr.bounds.min.x;
-                float left = sr.bounds.min.x;
+                float left = _pick._sprite.transform.position.x;
                 float right = sr.bounds.max.x;
                 float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
                 if (_HitSprite)
