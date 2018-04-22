@@ -146,15 +146,15 @@ public class World : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
-
         // Villages stats update
-        if (happiness > MAX_HAPPINESS)
-            happiness = MAX_HAPPINESS;
-        if (hunger > MAX_HUNGER)
-            hunger = MAX_HUNGER;
-        if (military > MAX_MILITARY)
-            military = MAX_MILITARY;
+        happiness = (happiness > MAX_HAPPINESS) ? MAX_HAPPINESS : happiness;
+        happiness = (happiness < 0) ? 0 : happiness;
+
+        hunger = (hunger > MAX_HUNGER) ? MAX_HUNGER : hunger;
+        hunger = (hunger < 0) ? 0 : hunger;
+
+        military = (military > MAX_MILITARY) ? MAX_MILITARY : military;
+        military = (military < 0) ? 0 : military;
 
     }
 }

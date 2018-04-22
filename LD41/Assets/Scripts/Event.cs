@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    class Event
+   public class Event
     {
         int id { get; set; }
     }
