@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
 using Buildings;
+// alias
+using Core = Assets.Scripts;
 
 public class World : MonoBehaviour {
     
@@ -34,6 +36,8 @@ public class World : MonoBehaviour {
     // Ressources
     public Dictionary<Ressource.TYPE, int> ressource_table;
 
+    //Events
+    public LinkedList<Core.Event> events;
 
     // Attributes
     private List<PointOfInterest> __unclassed_pois;
@@ -55,6 +59,7 @@ public class World : MonoBehaviour {
         max_villagers = STARTER_MAX_VILLAGER;
         max_trees = STARTER_MAX_TREES;
         ressource_table = new Dictionary<Ressource.TYPE, int>();
+        events = new LinkedList<Core.Event>();
     }
 
     // ------------------------- PRIVATE SPACE -------------------------------
@@ -149,6 +154,24 @@ public class World : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        // Apply Event in Queue
+        List<WorldEffector> worldEffectors = new List<WorldEffector>();
+        foreach ( Core.Event e in events)
+        {
+            WorldEffector we = e.worldEffector;
+            if (null!=we)
+                we.consumeAll(this);
+           
+        }
+        events.Clear();
+
+        // ///////// TEST ///////////////////////
+        events.AddLast( Test.generateTestEvent() );
+        events.AddLast( Test.generateTestEvent() );
+
+        //////////////////////////////////////
+
+
         // Villages stats update
         happiness = (happiness > MAX_HAPPINESS) ? MAX_HAPPINESS : happiness;
         happiness = (happiness < 0) ? 0 : happiness;
@@ -161,6 +184,29 @@ public class World : MonoBehaviour {
 
         fertility = (fertility > MAX_FERTILITY) ? MAX_FERTILITY : fertility;
         fertility = (fertility < 0) ? 0 : fertility;
+
+        // Village Ressource updates
+        List<Ressource.TYPE> keys = new List<Ressource.TYPE>(ressource_table.Keys);
+        foreach (Ressource.TYPE res in keys)
+            if (ressource_table[res] < 0)
+                ressource_table[res] = 0;
+
+        // -----------------------------------------------------
+
+        // Console Dump
+        dumpWorldValues();
+    }
+
+
+    void dumpWorldValues()
+    {
+        foreach (Ressource.TYPE res in ressource_table.Keys)
+            System.Console.Write(" RESSOURCE : " + res + ressource_table[res]);
+
+        System.Console.Write(" fertility : " + fertility);
+        System.Console.Write(" military : " + military);
+        System.Console.Write(" hunger : " + hunger);
+        System.Console.Write(" happiness : " + happiness);
 
     }
 }

@@ -16,6 +16,8 @@ namespace Assets.Grid
 
         private void buildGrid()
         {
+            __arcs = new List<Arc>();
+
             // Build Node Matrix
             __matrix = new List<List<Node>>(MATRIX_N);
             for (int i = 0; i < MATRIX_N; ++i)
@@ -38,7 +40,7 @@ namespace Assets.Grid
                     }
 
                     int to_id2 = node.id + MATRIX_N;
-                    if (to_id2 < MATRIX_N+ MATRIX_M)
+                    if (to_id2 < MATRIX_N + MATRIX_M)
                     {
                         Node to2 = __matrix[i][to_id2];
                         Arc arc_to2 = new Arc(node, to2);
@@ -71,7 +73,7 @@ namespace Assets.Grid
         // Use this for initialization
         void Start()
         {
-            buildGrid();
+            //buildGrid();
         }
 
         // Update is called once per frame
