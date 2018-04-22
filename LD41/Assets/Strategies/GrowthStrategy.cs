@@ -12,6 +12,11 @@ namespace Assets.Strategies
 
         public override Event getOutputEvent()
         {
+            // Get Token From Fretboard
+
+            // Match Token with Event using EventTokenDictionary
+
+            // Return the Token
 
             throw new NotImplementedException();
         }

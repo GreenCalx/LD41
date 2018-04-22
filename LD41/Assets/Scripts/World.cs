@@ -20,16 +20,19 @@ public class World : MonoBehaviour {
 
 
     // Village stats
+    public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY }
     public int happiness { get; set; }
     public const int MAX_HAPPINESS = 100;
     public int hunger { get; set; }
     public const int MAX_HUNGER = 100;
     public int military { get; set; }
     public const int MAX_MILITARY = 100;
+    public int fertility { get; set; }
+    public const int MAX_FERTILITY = 100;
 
 
     // Ressources
-    Dictionary<Ressource.TYPE, int> ressource_table;
+    public Dictionary<Ressource.TYPE, int> ressource_table;
 
 
     // Attributes
@@ -155,6 +158,9 @@ public class World : MonoBehaviour {
 
         military = (military > MAX_MILITARY) ? MAX_MILITARY : military;
         military = (military < 0) ? 0 : military;
+
+        fertility = (fertility > MAX_FERTILITY) ? MAX_FERTILITY : fertility;
+        fertility = (fertility < 0) ? 0 : fertility;
 
     }
 }
