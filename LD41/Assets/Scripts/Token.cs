@@ -7,6 +7,14 @@ namespace Assets.Scripts
 {
     public class Token
     {
+        public enum Sequence_State
+        {
+            Background,
+            Fail,
+            Success
+        };
+
+        public Sequence_State sequenceState;
         // Name of the sub-strategy 
         public string sequenceName;
 
@@ -19,9 +27,10 @@ namespace Assets.Scripts
         // Hits + Miss
         public int sequenceLength;
 
-        public Token(string iSequenceName, int iSequenceHits, int iSequenceMiss)
+        public Token(string iSequenceName, Sequence_State iSequenceState, int iSequenceHits, int iSequenceMiss)
         {
             sequenceName = iSequenceName;
+            sequenceState = iSequenceState;
             sequenceHits = iSequenceHits;
             sequenceMiss = iSequenceMiss;
             sequenceLength = sequenceHits + sequenceMiss;

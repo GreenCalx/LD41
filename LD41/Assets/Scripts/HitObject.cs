@@ -17,6 +17,28 @@ public class HitObject : MonoBehaviour {
     public GameObject _sprite;
     public GameObject Clone;
 
+    public Sequence _sequence;
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    public void Init()
+    {
+        _is_hittable = true;
+        //_is_alive = true;
+        Clone = Instantiate(_sprite);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    // EVENTS
     public void OnHit()
     {
         if (_is_hittable)
@@ -41,11 +63,12 @@ public class HitObject : MonoBehaviour {
         }
     }
 
-    public void Kill()
+    public void OnKill()
     {
         if (_is_hittable) OnMiss();
         _is_hittable = false;
     }
+
     public void Reset()
     {
         if ( _is_hittable) OnMiss();
@@ -53,15 +76,5 @@ public class HitObject : MonoBehaviour {
        // _is_alive = true;
     }
 
-    // Use this for initialization
-    void Start () {
-        _is_hittable = true;
-        //_is_alive = true;
-        Clone = Instantiate(_sprite);
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+ 
 }

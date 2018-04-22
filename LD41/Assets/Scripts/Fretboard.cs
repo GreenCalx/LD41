@@ -5,14 +5,18 @@ using UnityEngine;
 public class Fretboard : MonoBehaviour {
 
     public Sequence _sequence;
-    public Sequence _sequence_loop;
+    public Sequence _sequence_loop; //needed for loops
+
     public Pick _pick;
+
     public GameObject _HitSprite;
+
     private Queue<Assets.Scripts.Token> _tokens;
 
 	// Use this for initialization
 	void Start () {
-        Instantiate(_HitSprite);
+        _pick = gameObject.AddComponent<Pick>();
+        _pick._fretboard = this;
 
         _sequence = gameObject.AddComponent<Sequence>();
         _sequence._sprite = _HitSprite;
@@ -23,12 +27,33 @@ public class Fretboard : MonoBehaviour {
         _sequence_loop.Init();
         _sequence_loop.AddOffset(_sequence_loop._length);
 
-        _pick = gameObject.AddComponent<Pick>();
-        _pick._fretboard = this;
+
 
         Init();
     }
 
+
+    private void Init()
+    {
+        _tokens = new Queue<Assets.Scripts.Token>();
+        _sequence.Begin();
+        _sequence_loop.Begin();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Order is important
+        if (_pick && _sequence && _sequence_loop)
+        {
+            _pick.Do();
+            DrawSequence();
+            _sequence.Do();
+            _sequence_loop.Do();
+        }
+    }
+
+    // TOKENS 
     public void AddToken(Assets.Scripts.Token Token)
     {
         _tokens.Enqueue(Token);
@@ -36,19 +61,14 @@ public class Fretboard : MonoBehaviour {
 
     public Assets.Scripts.Token GetToken()
     {
-        if(_tokens.Count != 0)
+        if (_tokens.Count != 0)
         {
             return _tokens.Dequeue();
         }
         return null;
     }
-    private void Init()
-    {
 
-        _sequence.Begin();
-        _sequence_loop.Begin();
-    }
-
+    // EVENTS
     public void OnHit()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -67,6 +87,7 @@ public class Fretboard : MonoBehaviour {
         }
     }
 
+    // RENDER
     void DrawAtPixelFromBPM( HitObject HO )
     {
         float current_time = _sequence._Time_Since_Start;
@@ -106,11 +127,4 @@ public class Fretboard : MonoBehaviour {
             }
         }
     }
-
-    // Update is called once per frame
-    void Update () {
-        _pick.Do();
-        DrawSequence();
-        _sequence.Do();
-	}
 }
