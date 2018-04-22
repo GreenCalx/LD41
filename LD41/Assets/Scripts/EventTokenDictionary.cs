@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-   public class Event
+    class EventTokenDictionary
     {
-        int id { get; set; }
 
 
     }
