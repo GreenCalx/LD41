@@ -11,8 +11,28 @@ public class World : MonoBehaviour {
     private const int STARTER_MAX_VILLAGER = 6;
     private const int STARTER_MAX_BUILDINGS = 10;
     private const int STARTER_MAX_TREES = 10;
+    private const int STARTER_WOOD_UNITS = 50;
+    private const int STARTER_STONE_UNITS = 20;
+    private const int STARTER_IRON_UNITS = 0;
+    private const int STARTER_FOOD_UNITS = 25;
+    private const int STARTER_GOLD_UNITS = 8;
 
-    //Attributes
+
+
+    // Village stats
+    public int happiness { get; set; }
+    public const int MAX_HAPPINESS = 100;
+    public int hunger { get; set; }
+    public const int MAX_HUNGER = 100;
+    public int military { get; set; }
+    public const int MAX_MILITARY = 100;
+
+
+    // Ressources
+    Dictionary<Ressource.TYPE, int> ressource_table;
+
+
+    // Attributes
     private List<PointOfInterest> __unclassed_pois;
     private List<Entities> __unclassed_entities;
 
@@ -31,6 +51,7 @@ public class World : MonoBehaviour {
         max_buildings = STARTER_MAX_BUILDINGS;
         max_villagers = STARTER_MAX_VILLAGER;
         max_trees = STARTER_MAX_TREES;
+        ressource_table = new Dictionary<Ressource.TYPE, int>();
     }
 
     // ------------------------- PRIVATE SPACE -------------------------------
@@ -112,11 +133,28 @@ public class World : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}  
+
+        // Add starting ressources
+        ressource_table.Add(Ressource.TYPE.WOOD, STARTER_WOOD_UNITS);
+        ressource_table.Add(Ressource.TYPE.STONE, STARTER_STONE_UNITS);
+        ressource_table.Add(Ressource.TYPE.FOOD, STARTER_FOOD_UNITS);
+        ressource_table.Add(Ressource.TYPE.IRON, STARTER_IRON_UNITS);
+        ressource_table.Add(Ressource.TYPE.GOLD, STARTER_GOLD_UNITS);
+
+    }  
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+
+
+        // Villages stats update
+        if (happiness > MAX_HAPPINESS)
+            happiness = MAX_HAPPINESS;
+        if (hunger > MAX_HUNGER)
+            hunger = MAX_HUNGER;
+        if (military > MAX_MILITARY)
+            military = MAX_MILITARY;
+
+    }
 }

@@ -7,6 +7,6 @@ namespace Assets.Scripts
 {
     public class Ressource
     {
-        public enum TYPE { WOOD, STONE, FOOD, IRON }
+        public enum TYPE { WOOD, STONE, FOOD, IRON, GOLD }
     }
 }
