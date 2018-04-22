@@ -17,7 +17,7 @@ public class Pick : MonoBehaviour {
             float ppu = sr.sprite.pixelsPerUnit;
 
             float pps = 0.00075f;
-            float ppsSize = pps * 100;
+            float ppsSize = pps * 10;
             float ppsSizeScale = ppsSize * ppu;
             sr.transform.localScale = new Vector3(ppsSizeScale, 25, sr.transform.localScale.z);
 

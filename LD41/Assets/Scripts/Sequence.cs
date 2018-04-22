@@ -15,11 +15,11 @@ public class Sequence : MonoBehaviour
     int _hit = 0;
 
     public GameObject _sprite;
-     
+
     // Use this for initialization
     void Start()
     {
-        
+
     }
 
     public void Init()
@@ -38,7 +38,7 @@ public class Sequence : MonoBehaviour
         HO_b1.Init();
         HO_b1._BPM = BPM;
         HO_b1._MS_per_beat = 60000 / HO_b1._BPM;
-        HO_b1._size = 100;
+        HO_b1._size = 250;
         HO_b1._offset = 0 * HO_b1._MS_per_beat;
         HO_b1.HitSound = clip1;
         HO_b1._sprite = Instantiate(_sprite);
@@ -51,7 +51,7 @@ public class Sequence : MonoBehaviour
         HO_b2._BPM = BPM;
         HO_b2.Init();
         HO_b2._MS_per_beat = 60000 / HO_b2._BPM;
-        HO_b2._size = 100;
+        HO_b2._size = 250;
         HO_b2._offset = 1 * HO_b2._MS_per_beat;
         HO_b2.HitSound = clip1;
         HO_b2._sprite = Instantiate(_sprite); ;
@@ -61,7 +61,7 @@ public class Sequence : MonoBehaviour
         HO_b3._BPM = BPM;
         HO_b3.Init();
         HO_b3._MS_per_beat = 60000 / HO_b3._BPM;
-        HO_b3._size = 100;
+        HO_b3._size = 250;
         HO_b3._offset = 2 * HO_b3._MS_per_beat;
         HO_b3.HitSound = clip1;
         HO_b3._sprite = Instantiate(_sprite); ;
@@ -71,7 +71,7 @@ public class Sequence : MonoBehaviour
         HO_b4._BPM = BPM;
         HO_b2.Init();
         HO_b4._MS_per_beat = 60000 / HO_b4._BPM;
-        HO_b4._size = 100;
+        HO_b4._size = 250;
         HO_b4._offset = 3 * HO_b4._MS_per_beat;
         HO_b4.HitSound = clip1;
         HO_b4._sprite = Instantiate(_sprite); ;
@@ -94,14 +94,7 @@ public class Sequence : MonoBehaviour
             {
                 OnEnd();
             }
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_is_playing)
-        {
             foreach (HitObject HO in HitObjects)
             {
                 if (HO._is_hittable)
@@ -114,6 +107,12 @@ public class Sequence : MonoBehaviour
                 }
             }
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     // EVENTS
@@ -135,7 +134,7 @@ public class Sequence : MonoBehaviour
         {
 
             Fretboard f = GetComponent<Fretboard>();
-            if(f)
+            if (f)
             {
                 if (_player_miss != 0)
                 {
@@ -168,17 +167,28 @@ public class Sequence : MonoBehaviour
         {
             foreach (HitObject HO in HitObjects)
             {
-                if (HO._is_hittable)
+                if (HO._offset + HO._size > _Time_Since_Start && HO._offset < _Time_Since_Start)
                 {
-                    if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
+                    if (HO._is_hittable)
                     {
+
                         //Hit
                         HO.OnHit();
                         ++_hit;
                         return;
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
-                ++_player_miss;
+
+            }
+            ++_player_miss;
+            Fretboard f = GetComponent<Fretboard>();
+            if (f)
+            {
+                f.OnMiss();
             }
         }
     }
@@ -193,7 +203,7 @@ public class Sequence : MonoBehaviour
         _player_miss = 0;
     }
 
-    public void BeginAt( float offset )
+    public void BeginAt(float offset)
     {
         _Time_Since_Start = offset;
         _is_playing = true;

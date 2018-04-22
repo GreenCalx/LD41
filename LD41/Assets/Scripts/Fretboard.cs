@@ -54,10 +54,11 @@ public class Fretboard : MonoBehaviour {
         if (_pick && _sequence) // && _sequence_loop)
         {
             _pick.Do();
-            _sequence.Do();
-            DrawSequence();
             
-           // _sequence_loop.Do();
+            _sequence.Do();
+
+            DrawSequence();
+            // _sequence_loop.Do();
         }
     }
 
@@ -105,8 +106,11 @@ public class Fretboard : MonoBehaviour {
     void DrawAtPixelFromBPM( HitObject HO )
     {
         float current_time = _sequence._Time_Since_Start;
-        float current_time_clipped = HO._offset - current_time;
-        if (current_time_clipped > 0)
+        float hb_end = HO._offset + HO._size;
+         float current_time_clipped = (HO._offset ) - current_time;
+        float hb_end_time = hb_end - current_time;
+
+        if (hb_end_time > 0)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null)
@@ -117,7 +121,7 @@ public class Fretboard : MonoBehaviour {
                 float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
                 if (_HitSprite)
                 {
-                    HO._sprite.transform.position = new Vector3(left + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
+                    HO._sprite.transform.position = new Vector3(left + (pixel_per_ms * (current_time_clipped + HO._size / 2)) , transform.position.y, 0);
                 }
             }
         }
@@ -134,7 +138,7 @@ public class Fretboard : MonoBehaviour {
                     float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
                     if (_HitSprite)
                     {
-                        HO._sprite.transform.position = new Vector3(right + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
+                        HO._sprite.transform.position = new Vector3(right + (pixel_per_ms * (current_time_clipped + HO._size / 2)), transform.position.y, 0);
                     }
                 }
             }

@@ -85,7 +85,6 @@ public class HitObject : MonoBehaviour {
 
     public void Reset()
     {
-        if ( _is_hittable) OnMiss();
         _is_hittable = true;
        // _is_alive = true;
     }
