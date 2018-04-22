@@ -13,21 +13,28 @@ public class Fretboard : MonoBehaviour {
 
     private Queue<Assets.Scripts.Token> _tokens;
 
+    public Vector3 _position_pick;
+
 	// Use this for initialization
 	void Start () {
+        _position_pick = new Vector3(-0.6f, 0, 0);
+
         _pick = gameObject.AddComponent<Pick>();
-        _pick._sprite = (GameObject)Instantiate(_HitSprite);
+        _pick._sprite = Instantiate(_HitSprite);
         _pick._fretboard = this;
-        _pick._sprite.transform.position = new Vector3(-0.6f, _pick.transform.position.y, _pick.transform.position.z);
+        _pick._sprite.transform.localPosition = _position_pick;
 
         _sequence = gameObject.AddComponent<Sequence>();
         _sequence._sprite = _HitSprite;
         _sequence.Init();
 
-        _sequence_loop = gameObject.AddComponent<Sequence>();
+        /*_sequence_loop = gameObject.AddComponent<Sequence>();
         _sequence_loop._sprite = _HitSprite;
         _sequence_loop.Init();
-        _sequence_loop.AddOffset(_sequence_loop._length);
+        _sequence_loop.AddOffset(_sequence._length);
+        _sequence_loop._length += _sequence._length;
+        */
+       // _sequence._length *= 2;
 
         Init();
     }
@@ -37,19 +44,20 @@ public class Fretboard : MonoBehaviour {
     {
         _tokens = new Queue<Assets.Scripts.Token>();
         _sequence.Begin();
-        _sequence_loop.Begin();
+        //_sequence_loop.Begin();
     }
 
     // Update is called once per frame
     void Update()
     {
         // Order is important
-        if (_pick && _sequence && _sequence_loop)
+        if (_pick && _sequence) // && _sequence_loop)
         {
             _pick.Do();
-            DrawSequence();
             _sequence.Do();
-            _sequence_loop.Do();
+            DrawSequence();
+            
+           // _sequence_loop.Do();
         }
     }
 
@@ -90,7 +98,7 @@ public class Fretboard : MonoBehaviour {
     public void OnPick()
     {
         _sequence.OnPick();
-        _sequence_loop.OnPick();
+        //_sequence_loop.OnPick();
     }
 
     // RENDER
@@ -98,18 +106,36 @@ public class Fretboard : MonoBehaviour {
     {
         float current_time = _sequence._Time_Since_Start;
         float current_time_clipped = HO._offset - current_time;
-        //if (current_time_clipped > 0)
+        if (current_time_clipped > 0)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null)
             {
                 float size = sr.bounds.max.x - sr.bounds.min.x;
                 float left = _pick._sprite.transform.position.x;
-                float right = sr.bounds.max.x;
+                float right = sr.bounds.max.x + (_pick._sprite.transform.position.x - sr.bounds.max.x);
                 float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
                 if (_HitSprite)
                 {
                     HO._sprite.transform.position = new Vector3(left + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
+                }
+            }
+        }
+        else
+        {
+            if (_sequence._loop)
+            {
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    float size = sr.bounds.max.x - sr.bounds.min.x;
+                    float left = _pick._sprite.transform.position.x;
+                    float right = sr.bounds.max.x + (_pick._sprite.transform.position.x - sr.bounds.min.x);
+                    float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
+                    if (_HitSprite)
+                    {
+                        HO._sprite.transform.position = new Vector3(right + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
+                    }
                 }
             }
         }
@@ -125,12 +151,13 @@ public class Fretboard : MonoBehaviour {
             }
         }
 
+        /*
         foreach (HitObject HO in _sequence_loop.HitObjects)
         {
             if( _sequence_loop._is_playing )
             {
-                DrawAtPixelFromBPM(HO);
+               // DrawAtPixelFromBPM(HO);
             }
-        }
+        }*/
     }
 }

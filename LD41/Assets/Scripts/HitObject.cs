@@ -56,7 +56,7 @@ public class HitObject : MonoBehaviour {
     {
         if (_is_hittable)
         {
-            AudioSource.PlayClipAtPoint(HitSound, transform.position);
+            AudioSource.PlayClipAtPoint(HitSound, transform.position, 1);
             Fretboard f = GetComponent<Fretboard>();
             if (f)
             {
@@ -69,6 +69,7 @@ public class HitObject : MonoBehaviour {
 
     public void OnMiss()
     {
+        AudioSource.PlayClipAtPoint(HitSound, transform.position, 0.25f);
         Fretboard f = GetComponent<Fretboard>();
         if (f)
         {
