@@ -104,7 +104,13 @@ public class World : MonoBehaviour {
 
     }
 
+    private List<CoreEvent> generateEventsFromWorldStats()
+    {
+        List<CoreEvent> generatedEvents = new List<CoreEvent>();
 
+
+        return generatedEvents;
+    }
 
     // ------------------------- PUBLIC SPACE -------------------------------
 
