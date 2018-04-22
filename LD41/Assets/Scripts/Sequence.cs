@@ -4,56 +4,81 @@ using UnityEngine;
 
 public class Sequence : MonoBehaviour
 {
-    List<HitObject> HitObjects;
-    float _Time_Since_Start = 0;
+    public List<HitObject> HitObjects;
+    public float _Time_Since_Start = 0;
     public bool _loop = true;
-    bool _is_playing = false;
-    float _length;
+    public bool _is_playing = false;
+    public float _length;
+    public float _offset;
+
+    public GameObject _sprite;
 
     // Use this for initialization
     void Start()
     {
-        _length = 4 * (60000 / 60);
+
+    }
+
+    public void Init()
+    {
+        _Time_Since_Start = 0;
+        _is_playing = false;
+        _loop = true;
+
+        int BPM = 120;
+        _length = 4 * (60000 / BPM);
 
         HitObjects = new List<HitObject>();
         AudioClip clip1 = (AudioClip)Resources.Load("sound");
 
         HitObject HO_b1 = gameObject.AddComponent<HitObject>();
-        HO_b1._BPM = 60;
+        HO_b1._BPM = BPM;
         HO_b1._MS_per_beat = 60000 / HO_b1._BPM;
         HO_b1._size = 100;
-        HO_b1._offset = HO_b1._MS_per_beat;
+        HO_b1._offset = 0 * HO_b1._MS_per_beat;
         HO_b1.HitSound = clip1;
+        HO_b1._sprite = _sprite;
 
         HitObject HO_b2 = gameObject.AddComponent<HitObject>();
-        HO_b2._BPM = 60;
-        HO_b2._MS_per_beat = 60000 / HO_b2._BPM;
-        HO_b2._size = 100;
-        HO_b2._offset = 2 * HO_b2._MS_per_beat;
-        HO_b2.HitSound = clip1;
+          HO_b2._BPM = BPM;
+          HO_b2._MS_per_beat = 60000 / HO_b2._BPM;
+          HO_b2._size = 100;
+          HO_b2._offset = 1 * HO_b2._MS_per_beat;
+          HO_b2.HitSound = clip1;
+          HO_b2._sprite = _sprite;
 
-        HitObject HO_b3 = gameObject.AddComponent<HitObject>();
-        HO_b3._BPM = 60;
-        HO_b3._MS_per_beat = 60000 / HO_b3._BPM;
-        HO_b3._size = 100;
-        HO_b3._offset = 3 * HO_b3._MS_per_beat;
-        HO_b3.HitSound = clip1;
+          HitObject HO_b3 = gameObject.AddComponent<HitObject>();
+          HO_b3._BPM = BPM;
+          HO_b3._MS_per_beat = 60000 / HO_b3._BPM;
+          HO_b3._size = 100;
+          HO_b3._offset = 2 * HO_b3._MS_per_beat;
+          HO_b3.HitSound = clip1;
+          HO_b3._sprite = _sprite;
 
-        HitObject HO_b4 = gameObject.AddComponent<HitObject>();
-        HO_b4._BPM = 60;
-        HO_b4._MS_per_beat = 60000 / HO_b4._BPM;
-        HO_b4._size = 100;
-        HO_b4._offset = 4 * HO_b4._MS_per_beat;
-        HO_b4.HitSound = clip1;
+          HitObject HO_b4 = gameObject.AddComponent<HitObject>();
+          HO_b4._BPM = BPM;
+          HO_b4._MS_per_beat = 60000 / HO_b4._BPM;
+          HO_b4._size = 100;
+          HO_b4._offset = 3 * HO_b4._MS_per_beat;
+          HO_b4.HitSound = clip1;
+          HO_b4._sprite = _sprite;
 
-        HitObjects.Add(HO_b1);
-        HitObjects.Add(HO_b2);
-        HitObjects.Add(HO_b3);
-        HitObjects.Add(HO_b4);
-
+          HitObjects.Add(HO_b1);
+          HitObjects.Add(HO_b2);
+          HitObjects.Add(HO_b3);
+          HitObjects.Add(HO_b4);
     }
-    // Update is called once per frame
-    void Update()
+
+    public void AddOffset(float offset)
+    {
+        foreach (HitObject HO in HitObjects)
+        {
+            HO._offset += offset;
+            _length += offset;
+        }
+    }
+
+    public void Do()
     {
         if (_is_playing)
         {
@@ -63,7 +88,22 @@ public class Sequence : MonoBehaviour
                 _Time_Since_Start = 0;
                 foreach (HitObject HO in HitObjects)
                 {
-                    HO._is_hittable = true;
+                    HO.Reset();
+                }
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        foreach (HitObject HO in HitObjects)
+        {
+            if (HO._is_hittable)
+            {
+                if (HO._offset + HO._size < _Time_Since_Start )
+                {
+                    HO.Kill();
                 }
             }
         }
@@ -73,10 +113,13 @@ public class Sequence : MonoBehaviour
     {
         foreach (HitObject HO in HitObjects)
         {
-            if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
+            if (HO._is_hittable)
             {
-                //Hit
-                HO.OnHit();
+                if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
+                {
+                    //Hit
+                    HO.OnHit();
+                }
             }
         }
     }

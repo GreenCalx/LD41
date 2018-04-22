@@ -12,19 +12,52 @@ public class HitObject : MonoBehaviour {
 
     public AudioClip HitSound;
     public bool _is_hittable;
+    public bool _is_alive;
+
+    public GameObject _sprite;
+    public GameObject Clone;
 
     public void OnHit()
     {
         if (_is_hittable)
         {
             AudioSource.PlayClipAtPoint(HitSound, transform.position);
+            Fretboard f = GetComponent<Fretboard>();
+            if (f)
+            {
+                f.OnHit();
+            }
             _is_hittable = false;
+           // _is_alive = false;
         }
+    }
+
+    public void OnMiss()
+    {
+        Fretboard f = GetComponent<Fretboard>();
+        if (f)
+        {
+            f.OnMiss();
+        }
+    }
+
+    public void Kill()
+    {
+        if (_is_hittable) OnMiss();
+        _is_hittable = false;
+    }
+    public void Reset()
+    {
+        if ( _is_hittable) OnMiss();
+        _is_hittable = true;
+       // _is_alive = true;
     }
 
     // Use this for initialization
     void Start () {
         _is_hittable = true;
+        //_is_alive = true;
+        Clone = Instantiate(_sprite);
     }
 	
 	// Update is called once per frame
