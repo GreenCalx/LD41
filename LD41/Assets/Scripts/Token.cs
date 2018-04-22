@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Scripts
 {
-    class Token
+    public class Token
     {
         // Name of the sub-strategy 
         public string sequenceName;

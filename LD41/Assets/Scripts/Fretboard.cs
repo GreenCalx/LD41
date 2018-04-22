@@ -8,6 +8,7 @@ public class Fretboard : MonoBehaviour {
     public Sequence _sequence_loop;
     public Pick _pick;
     public GameObject _HitSprite;
+    private Queue<Assets.Scripts.Token> _tokens;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,19 @@ public class Fretboard : MonoBehaviour {
         Init();
     }
 
+    public void AddToken(Assets.Scripts.Token Token)
+    {
+        _tokens.Enqueue(Token);
+    }
+
+    public Assets.Scripts.Token GetToken()
+    {
+        if(_tokens.Count != 0)
+        {
+            return _tokens.Dequeue();
+        }
+        return null;
+    }
     private void Init()
     {
 

@@ -10,13 +10,40 @@ public class Sequence : MonoBehaviour
     public bool _is_playing = false;
     public float _length;
     public float _offset;
-
+    int _miss = 0;
+    int _hit = 0;
     public GameObject _sprite;
 
     // Use this for initialization
     void Start()
     {
 
+    }
+
+    public void OnEnd()
+    {
+        Stop();
+        _Time_Since_Start = 0;
+        if(_loop) Begin();
+        foreach (HitObject HO in HitObjects)
+        {
+            HO.Reset();
+        }
+
+        if(_miss != 0)
+        {
+            Fretboard f = GetComponent<Fretboard>();
+            if(f)
+            {
+                Assets.Scripts.Token t = new Assets.Scripts.Token("test1", _hit, _miss);
+                f.AddToken(t);
+            }
+            //output fail pattern;
+        }
+        else
+        {
+            // output success pattern
+        }
     }
 
     public void Init()
@@ -85,11 +112,7 @@ public class Sequence : MonoBehaviour
             _Time_Since_Start += Time.deltaTime * 1000;
             if (_Time_Since_Start > _length)
             {
-                _Time_Since_Start = 0;
-                foreach (HitObject HO in HitObjects)
-                {
-                    HO.Reset();
-                }
+                OnEnd();
             }
         }
     }
@@ -97,13 +120,17 @@ public class Sequence : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (HitObject HO in HitObjects)
+        if (_is_playing)
         {
-            if (HO._is_hittable)
+            foreach (HitObject HO in HitObjects)
             {
-                if (HO._offset + HO._size < _Time_Since_Start )
+                if (HO._is_hittable)
                 {
-                    HO.Kill();
+                    if (HO._offset + HO._size < _Time_Since_Start)
+                    {
+                        HO.Kill();
+                        ++_miss;
+                    }
                 }
             }
         }
@@ -111,15 +138,21 @@ public class Sequence : MonoBehaviour
 
     public void Pick()
     {
-        foreach (HitObject HO in HitObjects)
+        if (_is_playing)
         {
-            if (HO._is_hittable)
+            foreach (HitObject HO in HitObjects)
             {
-                if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
+                if (HO._is_hittable)
                 {
-                    //Hit
-                    HO.OnHit();
+                    if (HO._offset + HO._size > _Time_Since_Start && HO._offset - HO._size < _Time_Since_Start)
+                    {
+                        //Hit
+                        HO.OnHit();
+                        ++_hit;
+                        return;
+                    }
                 }
+                ++_miss;
             }
         }
     }
