@@ -55,7 +55,9 @@ namespace Assets.Scripts
                 { World.STATS.HAPPINESS, 0 },
                 { World.STATS.HUNGER, 0 },
                 { World.STATS.MILITARY, 0 },
-                { World.STATS.FERTILITY, 0 }
+                { World.STATS.FERTILITY, 0 },
+                { World.STATS.POPULATION, 0 },
+                { World.STATS.MAX_POPULATION, 0 }
             };
             return retDec;
         }
@@ -80,7 +82,12 @@ namespace Assets.Scripts
             iWorld.military += worldStats[World.STATS.MILITARY];
 
             iWorld.fertility += worldStats[World.STATS.FERTILITY];
+
+            iWorld.population += worldStats[World.STATS.POPULATION];
+
+            iWorld.max_villagers += worldStats[World.STATS.MAX_POPULATION];
         }
+
         // Consume Village ressources (food, wood, etc...)
         public void consumeRessource(World iWorld)
         {

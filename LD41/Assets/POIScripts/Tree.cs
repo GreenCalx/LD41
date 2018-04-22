@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts;
 
-namespace Buildings
+namespace POI
 {
     public class Tree : PointOfInterest
     {

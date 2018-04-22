@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
-using Buildings;
+using POI;
 using Assets.Strategies;
 // alias
 using CoreEvent = Assets.Scripts.Event;
@@ -20,10 +20,12 @@ public class World : MonoBehaviour {
     private const int STARTER_FOOD_UNITS = 25;
     private const int STARTER_GOLD_UNITS = 8;
 
+    private const int HUNGER_DIV_RATIO = 25; // 1/4th
+
 
 
     // Village stats
-    public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY }
+    public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY, POPULATION, MAX_POPULATION }
     public int happiness { get; set; }
     public const int MAX_HAPPINESS = 100;
     public int hunger { get; set; }
@@ -51,9 +53,10 @@ public class World : MonoBehaviour {
     private List<Building> __building_pois;
 
     public int max_trees { get; set; }
-    private List<Buildings.Tree> __trees_pois;
+    private List<POI.Tree> __trees_pois;
 
     public int max_villagers { get; set; }
+    public int population { get; set; }
     private List<Villager> __villager_entities;
 
 
@@ -104,21 +107,50 @@ public class World : MonoBehaviour {
 
     }
 
+    // Generates events based on current world stats
     private List<CoreEvent> generateEventsFromWorldStats()
     {
         List<CoreEvent> generatedEvents = new List<CoreEvent>();
+
+        // Hunger on Happiness
+        int hungerRatio = (hunger / HUNGER_DIV_RATIO);
+        if (hungerRatio > 0)
+            generatedEvents.Add(EventBank.generateHappinessEvent( (-1)*hungerRatio) );
+
+
+        // food_units_missing
+        int food_units_missing = ressource_table[Ressource.TYPE.FOOD] - __villager_entities.Count;
+        if (food_units_missing < 0)
+            generatedEvents.Add(EventBank.generateHungerEvent( food_units_missing ));
 
 
         return generatedEvents;
     }
 
+    private void updatePOIs()
+    {
+        // Trees
+        POI.Tree[] trees = GameObject.FindObjectsOfType<POI.Tree>();
+        foreach (POI.Tree t in trees)
+            if (!__trees_pois.Contains(t)) __trees_pois.Add(t);
+            else if ( t.ressource_units_pool <= 0 ) Destroy(t.gameObject);
+
+        // Buildings
+        Building[] buildings = GameObject.FindObjectsOfType<Building>();
+        foreach (Building b in buildings)
+            if (!__building_pois.Contains(b)) __building_pois.Add(b);
+            else if (b.HP <= 0) Destroy(b.gameObject);
+
+    }
+
+
     // ------------------------- PUBLIC SPACE -------------------------------
 
-    // Mutators
+        // Mutators
     public List<Villager> getVillagers()
         { return __villager_entities; }
     // Mutators
-    public List<Buildings.Tree> getTrees()
+    public List<POI.Tree> getTrees()
     { return __trees_pois; }
 
     // Methods
@@ -141,9 +173,9 @@ public class World : MonoBehaviour {
 
         // Init Default Trees
         max_trees = STARTER_MAX_TREES;
-        __trees_pois = new List<Buildings.Tree>(max_trees);
+        __trees_pois = new List<POI.Tree>(max_trees);
         for (int i = 0; i < __building_pois.Capacity; ++i)
-            __trees_pois.Add( new Buildings.Tree() );
+            __trees_pois.Add( new POI.Tree() );
 
     }
 
@@ -152,6 +184,9 @@ public class World : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        // Create base world
+        createWorld();
 
         // Add starting ressources
         ressource_table.Add(Ressource.TYPE.WOOD, STARTER_WOOD_UNITS);
@@ -164,13 +199,27 @@ public class World : MonoBehaviour {
         strategies.Add( new GrowthStrategy()     );
         strategies.Add( new MilitaryStrategy()   );
         strategies.Add( new DiplomaticStrategy() );
+
+        // Poll the map for POIs
+        updatePOIs();
+
+        // Class different entities
+        classEntities();
     }  
 	
 	// Update is called once per frame
 	void Update () {
 
+        //////////////////////////////////////////////
+        // Village Stats update
+        population = __villager_entities.Count;
+
+
+        //////////////////////////////////////////////
         // Poll For Events
-        foreach( Strategy strategy in strategies)
+
+        // Strategies
+        foreach ( Strategy strategy in strategies)
         {
             List<CoreEvent> localEvents = strategy.getOutputEvents();
             if ((null != localEvents) && (localEvents.Count > 0))
@@ -178,7 +227,23 @@ public class World : MonoBehaviour {
                     events.AddLast(e);
         }
 
+        // WorldStats effect on World
+        List<CoreEvent> worldFromStatsEvents = generateEventsFromWorldStats();
+        foreach (CoreEvent e in worldFromStatsEvents)
+            events.AddLast(e);
 
+        // Generate events from Buildings
+        foreach ( Building building in __building_pois)
+        {
+            List<CoreEvent> buildingEvents = building.generateEvents();
+
+            if (null == buildingEvents) continue;
+            foreach (CoreEvent e in buildingEvents)
+                events.AddLast(e);
+        }
+
+
+        //////////////////////////////////////////////
         // Apply Events in Queue
         List<WorldEffector> worldEffectors = new List<WorldEffector>();
         foreach (CoreEvent e in events)
@@ -190,10 +255,8 @@ public class World : MonoBehaviour {
         }
         events.Clear();
 
-
-
-
-        // Villages stats update
+        //////////////////////////////////////////////
+        // Villages stats post-update
         happiness = (happiness > MAX_HAPPINESS) ? MAX_HAPPINESS : happiness;
         happiness = (happiness < 0) ? 0 : happiness;
 
@@ -205,14 +268,15 @@ public class World : MonoBehaviour {
 
         fertility = (fertility > MAX_FERTILITY) ? MAX_FERTILITY : fertility;
         fertility = (fertility < 0) ? 0 : fertility;
-
+       
+        //////////////////////////////////////////////
         // Village Ressource updates
         List<Ressource.TYPE> keys = new List<Ressource.TYPE>(ressource_table.Keys);
         foreach (Ressource.TYPE res in keys)
             if (ressource_table[res] < 0)
                 ressource_table[res] = 0;
 
-        // -----------------------------------------------------
+
 
         // Console Dump
         dumpWorldValues();

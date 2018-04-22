@@ -20,6 +20,12 @@ namespace Assets.Scripts
 
         public static CoreEvent generateFertilityEvent(int value)
         { return generateWorldStatEvent(World.STATS.FERTILITY, value); }
+
+        public static CoreEvent generatePopulationEvent(int value)
+        { return generateWorldStatEvent(World.STATS.POPULATION, value); }
+
+        public static CoreEvent generateMaxPopulationEvent(int value)
+        { return generateWorldStatEvent(World.STATS.MAX_POPULATION, value); }
         //-----------------------------------------------------------------------
         public static CoreEvent generateWoodEvent(int value)
         { return generateRessourceEvent(Ressource.TYPE.WOOD, value); }
@@ -36,6 +42,8 @@ namespace Assets.Scripts
         public static CoreEvent generateIronEvent(int value)
         { return generateRessourceEvent(Ressource.TYPE.IRON, value); }
         //-------------------------------------------------------------------------
+        
+        
 
         // ==============================================================================
         private static CoreEvent generateWorldStatEvent(World.STATS iStat, int iValue)

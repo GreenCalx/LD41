@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using POI;
 
 namespace Assets.Scripts
 {
@@ -12,7 +13,8 @@ namespace Assets.Scripts
 
         public void teleportToPOI(PointOfInterest POI)
         {
-            transform.position = POI.transform.position;
+            if (!!POI)
+                transform.position = POI.transform.position;
         }
 
         // ---------- WOOD ------------
@@ -26,12 +28,12 @@ namespace Assets.Scripts
             GameObject world_GO = GameObject.Find("World");
             World world = world_GO.GetComponent<World>();
 
-            List<Buildings.Tree>    trees = world.getTrees();
+            List<POI.Tree>    trees = world.getTrees();
             if ((trees == null) || (trees.Count == 0))
                 return ;
 
             // Select a Tree
-            Buildings.Tree tree = trees[0];
+            POI.Tree tree = trees[0];
 
             // Teleport to PoI
             teleportToPOI(tree);
