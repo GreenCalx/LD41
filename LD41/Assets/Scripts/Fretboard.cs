@@ -27,8 +27,6 @@ public class Fretboard : MonoBehaviour {
         _sequence_loop.Init();
         _sequence_loop.AddOffset(_sequence_loop._length);
 
-
-
         Init();
     }
 
@@ -87,12 +85,18 @@ public class Fretboard : MonoBehaviour {
         }
     }
 
+    public void OnPick()
+    {
+        _sequence.OnPick();
+        _sequence_loop.OnPick();
+    }
+
     // RENDER
     void DrawAtPixelFromBPM( HitObject HO )
     {
         float current_time = _sequence._Time_Since_Start;
         float current_time_clipped = HO._offset - current_time;
-        //if (current_time_clipped > 0)
+        if (current_time_clipped > 0)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();
             if (sr != null)
@@ -103,7 +107,7 @@ public class Fretboard : MonoBehaviour {
                 float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
                 if (_HitSprite)
                 {
-                    HO.Clone.transform.position = new Vector3(left + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
+                    HO._sprite.transform.position = new Vector3(left + (pixel_per_ms * current_time_clipped), transform.position.y, 0);
                 }
             }
         }

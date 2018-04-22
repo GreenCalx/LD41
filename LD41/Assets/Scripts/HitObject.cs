@@ -15,21 +15,20 @@ public class HitObject : MonoBehaviour {
     public bool _is_alive;
 
     public GameObject _sprite;
-    public GameObject Clone;
+   // public GameObject Clone;
 
     public Sequence _sequence;
 
     // Use this for initialization
     void Start()
     {
-
+        _is_hittable = true;
+        //_is_alive = true;
     }
 
     public void Init()
     {
-        _is_hittable = true;
-        //_is_alive = true;
-        Clone = Instantiate(_sprite);
+
     }
 
     // Update is called once per frame

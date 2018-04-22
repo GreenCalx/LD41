@@ -19,7 +19,7 @@ public class Sequence : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     public void Init()
@@ -41,8 +41,11 @@ public class Sequence : MonoBehaviour
         HO_b1._size = 100;
         HO_b1._offset = 0 * HO_b1._MS_per_beat;
         HO_b1.HitSound = clip1;
-        HO_b1._sprite = _sprite;
+        HO_b1._sprite = Instantiate(_sprite);
+        SpriteRenderer sr = HO_b1._sprite.GetComponent<SpriteRenderer>();
+        sr.color = new Color(1, 1, 0);
         HO_b1._sequence = this;
+
 
         HitObject HO_b2 = gameObject.AddComponent<HitObject>();
         HO_b2._BPM = BPM;
@@ -51,7 +54,7 @@ public class Sequence : MonoBehaviour
         HO_b2._size = 100;
         HO_b2._offset = 1 * HO_b2._MS_per_beat;
         HO_b2.HitSound = clip1;
-        HO_b2._sprite = _sprite;
+        HO_b2._sprite = Instantiate(_sprite); ;
         HO_b2._sequence = this;
 
         HitObject HO_b3 = gameObject.AddComponent<HitObject>();
@@ -61,7 +64,7 @@ public class Sequence : MonoBehaviour
         HO_b3._size = 100;
         HO_b3._offset = 2 * HO_b3._MS_per_beat;
         HO_b3.HitSound = clip1;
-        HO_b3._sprite = _sprite;
+        HO_b3._sprite = Instantiate(_sprite); ;
         HO_b3._sequence = this;
 
         HitObject HO_b4 = gameObject.AddComponent<HitObject>();
@@ -71,8 +74,10 @@ public class Sequence : MonoBehaviour
         HO_b4._size = 100;
         HO_b4._offset = 3 * HO_b4._MS_per_beat;
         HO_b4.HitSound = clip1;
-        HO_b4._sprite = _sprite;
+        HO_b4._sprite = Instantiate(_sprite); ;
         HO_b4._sequence = this;
+
+        Destroy(_sprite);
 
         HitObjects.Add(HO_b1);
         HitObjects.Add(HO_b2);

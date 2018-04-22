@@ -11,7 +11,7 @@ public class Pick : MonoBehaviour {
     public void Do()
     {
        if (Input.GetKeyDown(KeyCode.Space))
-            _fretboard._sequence.OnPick();
+            _fretboard.OnPick();
     }
 
 	// Update is called once per frame
