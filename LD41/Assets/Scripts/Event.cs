@@ -7,8 +7,7 @@ namespace Assets.Scripts
 {
    public class Event
     {
-        int id { get; set; }
-
-
+        public int id { get; set; }
+        public WorldEffector worldEffector { get; set; }
     }
 }

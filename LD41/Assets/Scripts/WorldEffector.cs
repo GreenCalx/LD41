@@ -8,7 +8,7 @@ namespace Assets.Scripts
     /*
      * Can be consumed by World entity to modify itself
      */
-    class WorldEffector
+    public class WorldEffector
     {
         
 

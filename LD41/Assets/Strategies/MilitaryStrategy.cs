@@ -16,7 +16,7 @@ namespace Assets.Strategies
 
             // Match Token with Event using EventTokenDictionary
 
-            // Return the Token
+            // Return the Event
 
             throw new NotImplementedException();
         }
