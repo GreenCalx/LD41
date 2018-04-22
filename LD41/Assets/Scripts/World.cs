@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
 using Buildings;
+using Assets.Strategies;
 // alias
-using Core = Assets.Scripts;
+using CoreEvent = Assets.Scripts.Event;
 
 public class World : MonoBehaviour {
     
@@ -36,8 +37,11 @@ public class World : MonoBehaviour {
     // Ressources
     public Dictionary<Ressource.TYPE, int> ressource_table;
 
-    //Events
-    public LinkedList<Core.Event> events;
+    // Events
+    public LinkedList<CoreEvent> events;
+
+    // Strategies
+    public List<Strategy> strategies;
 
     // Attributes
     private List<PointOfInterest> __unclassed_pois;
@@ -59,7 +63,8 @@ public class World : MonoBehaviour {
         max_villagers = STARTER_MAX_VILLAGER;
         max_trees = STARTER_MAX_TREES;
         ressource_table = new Dictionary<Ressource.TYPE, int>();
-        events = new LinkedList<Core.Event>();
+        strategies = new List<Strategy>();
+        events = new LinkedList<CoreEvent>();
     }
 
     // ------------------------- PRIVATE SPACE -------------------------------
@@ -149,14 +154,28 @@ public class World : MonoBehaviour {
         ressource_table.Add(Ressource.TYPE.IRON, STARTER_IRON_UNITS);
         ressource_table.Add(Ressource.TYPE.GOLD, STARTER_GOLD_UNITS);
 
+        // Add strategy blocks
+        strategies.Add( new GrowthStrategy()     );
+        strategies.Add( new MilitaryStrategy()   );
+        strategies.Add( new DiplomaticStrategy() );
     }  
 	
 	// Update is called once per frame
 	void Update () {
 
-        // Apply Event in Queue
+        // Poll For Events
+        foreach( Strategy strategy in strategies)
+        {
+            List<CoreEvent> localEvents = strategy.getOutputEvents();
+            if ((null != localEvents) && (localEvents.Count > 0))
+                foreach (CoreEvent e in localEvents)
+                    events.AddLast(e);
+        }
+
+
+        // Apply Events in Queue
         List<WorldEffector> worldEffectors = new List<WorldEffector>();
-        foreach ( Core.Event e in events)
+        foreach (CoreEvent e in events)
         {
             WorldEffector we = e.worldEffector;
             if (null!=we)
@@ -165,11 +184,7 @@ public class World : MonoBehaviour {
         }
         events.Clear();
 
-        // ///////// TEST ///////////////////////
-        events.AddLast( Test.generateTestEvent() );
-        events.AddLast( Test.generateTestEvent() );
 
-        //////////////////////////////////////
 
 
         // Villages stats update

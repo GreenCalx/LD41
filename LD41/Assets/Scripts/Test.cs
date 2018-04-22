@@ -20,7 +20,7 @@ namespace Assets.Scripts
                 },
                 new Dictionary<World.STATS, int>()
                 {
-                { World.STATS.HUNGER , 1 },
+                 { World.STATS.HUNGER , 1 },
                 { World.STATS.HAPPINESS , 2 }
                 }
 
