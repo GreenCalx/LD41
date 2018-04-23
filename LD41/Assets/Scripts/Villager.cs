@@ -156,10 +156,10 @@ namespace Assets.Scripts
                     if (!!_spawner)
                         teleportToPOI(_spawner);
                 // OCCUPY
-                if (!seekFood())
+                if (!seekWood())
                     if (!seekStone())
-                        if (!seekIron())
-                            seekWood();
+                        if (!seekFood())
+                            seekIron();
             }
         }
 

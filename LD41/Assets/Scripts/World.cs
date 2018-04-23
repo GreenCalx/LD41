@@ -164,7 +164,7 @@ public class World : MonoBehaviour {
             if (!__iron_pois.Contains(i)) __iron_pois.Add(i);
             else if (i.ressource_units_pool <= 0) Destroy(i.gameObject);
 
-        // Iron
+        // Fields
         CropField[] fields = GameObject.FindObjectsOfType<CropField>();
         foreach (CropField cf in fields)
             if (!__cropfield_pois.Contains(cf)) __cropfield_pois.Add(cf);
@@ -194,7 +194,7 @@ public class World : MonoBehaviour {
         color.g = UnityEngine.Random.Range(150f, 256f);
         color.b = UnityEngine.Random.Range(150f, 256f);
         color.a = UnityEngine.Random.Range(225f, 256f);
-        sr.color =  /* Random.ColorHSV();*/ color;
+        sr.color =   Random.ColorHSV();/* color;*/
 
         return newVillager;
     }
