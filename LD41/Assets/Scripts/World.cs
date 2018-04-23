@@ -153,6 +153,9 @@ public class World : MonoBehaviour {
     public List<POI.Tree> getTrees()
     { return __trees_pois; }
 
+    public void addBuilding(Building iBuilding)
+    { if (!!iBuilding) __building_pois.Add(iBuilding); }
+
     // Methods
     public void createWorld()
     {

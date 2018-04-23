@@ -28,18 +28,19 @@ namespace Assets.Scripts
             GameObject world_GO = GameObject.Find("World");
             World world = world_GO.GetComponent<World>();
 
-            List<POI.Tree>    trees = world.getTrees();
+            List<POI.Tree> trees = world.getTrees();
             if ((trees == null) || (trees.Count == 0))
-                return ;
+                return;
 
             // Select a Tree
             POI.Tree tree = trees[0];
+            if (tree != null) { 
+                // Teleport to PoI
+                teleportToPOI(tree);
 
-            // Teleport to PoI
-            teleportToPOI(tree);
-
-            // Perform Action
-            tree.chop();
+                // Perform Action
+                tree.chop();
+            }
         }
 
         // ----------------------------

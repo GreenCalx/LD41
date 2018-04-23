@@ -16,12 +16,12 @@ namespace POI
         protected bool isStaticBonus = false;
         protected List<CoreEvent> staticEvents;
 
-        public enum TYPES { HOUSE, UNDEFINED };
+        public enum TYPES { HOUSE, BARRACK, STORAGE, UNDEFINED };
 
         private TYPES __type { get; set; }
 
         public Building() { __type = TYPES.UNDEFINED; }
 
-        public virtual List<CoreEvent> generateEvents() { return null; }
+        override public List<CoreEvent> generateEvents() { return null; }
     }
 }

@@ -9,8 +9,17 @@ namespace POI
 
 public class House : Building {
 
+        //////////////////////////////////////////////
+        // STATS
         private int houseSize = 8; // Pop increase
-        public override List<CoreEvent> generateEvents()
+        public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
+        {
+            {Ressource.TYPE.WOOD, 0 },
+            {Ressource.TYPE.STONE, 0 }
+        };
+        //////////////////////////////////////////////
+
+        override public List<CoreEvent> generateEvents()
         {
             List<CoreEvent> dumpEvents = new List<CoreEvent>();
             dumpEvents.AddRange(staticEvents);

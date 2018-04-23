@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts;
+using CoreEvent = Assets.Scripts.Event;
 
 namespace POI
 {
@@ -11,6 +12,8 @@ namespace POI
         public Ressource.TYPE ressourceType = Ressource.TYPE.WOOD;
         public int ressource_units_pool = 2000;
         
+        override public List<CoreEvent> generateEvents() { return null; }
+
         public int chop()
         {
             ressource_units_pool =- 5;
