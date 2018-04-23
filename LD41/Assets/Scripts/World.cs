@@ -364,7 +364,7 @@ public class World : MonoBehaviour {
             foreach (CoreEvent e in ironEvents)
                 events.AddLast(e);
         }
-        // Generate events from Iron
+        // Generate events from Cropfields
         foreach (CropField cf in __cropfield_pois)
         {
             List<CoreEvent> cfEvents = cf.generateEvents();

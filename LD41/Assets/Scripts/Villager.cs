@@ -131,6 +131,7 @@ namespace Assets.Scripts
                     // Teleport to PoI
                     teleportToPOI(cf);
 
+                    foundAJob = true;
                     currentState = STATE.BUSY;
                     break;
                 }
@@ -155,7 +156,7 @@ namespace Assets.Scripts
                     if (!!_spawner)
                         teleportToPOI(_spawner);
                 // OCCUPY
-                if (!seekWood())
+                if (!seekFood())
                     if (!seekStone())
                         if (!seekIron())
                             seekWood();
