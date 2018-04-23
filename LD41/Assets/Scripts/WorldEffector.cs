@@ -57,7 +57,8 @@ namespace Assets.Scripts
                 { World.STATS.MILITARY, 0 },
                 { World.STATS.FERTILITY, 0 },
                 { World.STATS.POPULATION, 0 },
-                { World.STATS.MAX_POPULATION, 0 }
+                { World.STATS.MAX_POPULATION, 0 },
+                { World.STATS.FOOD_STORAGE, 0 }
             };
             return retDec;
         }
@@ -86,6 +87,9 @@ namespace Assets.Scripts
             iWorld.population += worldStats[World.STATS.POPULATION];
 
             iWorld.max_villagers += worldStats[World.STATS.MAX_POPULATION];
+
+            iWorld.foodStorage += worldStats[World.STATS.FOOD_STORAGE];
+
         }
 
         // Consume Village ressources (food, wood, etc...)

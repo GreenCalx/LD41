@@ -16,7 +16,7 @@ namespace POI
         protected bool isStaticBonus = false;
         protected List<CoreEvent> staticEvents;
 
-        public enum TYPES { HOUSE, BARRACK, STORAGE, UNDEFINED };
+        public enum TYPES { HOUSE, FORT, STORAGE, UNDEFINED };
 
         private TYPES __type { get; set; }
 

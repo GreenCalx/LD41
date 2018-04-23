@@ -1,21 +1,22 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
+using System.Text;
 using Assets.Scripts;
 using CoreEvent = Assets.Scripts.Event;
 
 namespace POI
 {
-
-public class House : Building {
-
+    class Fort : Building
+    {
         //////////////////////////////////////////////
         // STATS
-        private int houseSize = 8; // Pop increase
+        private int militaryValue = 10; // military increase
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
             {Ressource.TYPE.WOOD, 0 },
-            {Ressource.TYPE.STONE, 0 }
+            {Ressource.TYPE.STONE, 0 },
+            {Ressource.TYPE.IRON, 0 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()
@@ -27,26 +28,26 @@ public class House : Building {
             return dumpEvents;
         }
 
-        // Use this for initialization
-        void Start ()
+        void Start()
         {
-                HP = 10;
-                isStaticBonus = true;
-                staticEvents = new List<CoreEvent>(1);
-                staticEvents.Add( EventBank.generateMaxPopulationEvent(houseSize) );
+            HP = 50;
+            isStaticBonus = true;
+            staticEvents = new List<CoreEvent>(1);
+            staticEvents.Add(EventBank.generateMilitaryEvent(militaryValue));
         }
 
-	    void Destroy()
+        void Destroy()
         {
-            staticEvents.Add(EventBank.generateMaxPopulationEvent((-1) * houseSize));
+            staticEvents.Add(EventBank.generateMilitaryEvent((-1) * militaryValue));
         }
 
-	    // Update is called once per frame
-	    void Update ()
+        // Update is called once per frame
+        void Update()
         {
-		    if (HP==0)
+            if (HP == 0)
                 Destroy();
-	    }
-    }
+        }
 
+
+    }
 }

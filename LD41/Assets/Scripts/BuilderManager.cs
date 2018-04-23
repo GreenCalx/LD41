@@ -17,7 +17,7 @@ namespace Assets.Scripts
 
         public GameObject StoragePrefab = null;
 
-        public int ffs = 2;
+        public GameObject FortPrefab = null;
 
         void Start()
         {
@@ -35,8 +35,8 @@ namespace Assets.Scripts
         {
             if (Input.GetKeyDown(KeyCode.H))
                 tryBuildBuilding(House.cost, Building.TYPES.HOUSE);
-            else if (Input.GetKeyDown(KeyCode.B))
-                tryBuildBuilding(Barrack.cost, Building.TYPES.BARRACK);
+            else if (Input.GetKeyDown(KeyCode.F))
+                tryBuildBuilding(Fort.cost, Building.TYPES.FORT);
             else if (Input.GetKeyDown(KeyCode.S))
                 tryBuildBuilding(Storage.cost, Building.TYPES.STORAGE);
 
@@ -73,6 +73,12 @@ namespace Assets.Scripts
 
                 case Building.TYPES.STORAGE:
                     createdGO = Instantiate( StoragePrefab );
+                    createdGO.transform.position = chosenSpot.transform.position;
+                    break;
+
+
+                case Building.TYPES.FORT:
+                    createdGO = Instantiate( FortPrefab );
                     createdGO.transform.position = chosenSpot.transform.position;
                     break;
 

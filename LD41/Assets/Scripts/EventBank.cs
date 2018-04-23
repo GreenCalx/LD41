@@ -26,6 +26,10 @@ namespace Assets.Scripts
 
         public static CoreEvent generateMaxPopulationEvent(int value)
         { return generateWorldStatEvent(World.STATS.MAX_POPULATION, value); }
+
+        public static CoreEvent generateFoodStorageEvent(int value)
+        { return generateWorldStatEvent(World.STATS.FOOD_STORAGE, value); }
+
         //-----------------------------------------------------------------------
         public static CoreEvent generateWoodEvent(int value)
         { return generateRessourceEvent(Ressource.TYPE.WOOD, value); }

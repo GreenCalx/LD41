@@ -19,13 +19,14 @@ public class World : MonoBehaviour {
     private const int STARTER_IRON_UNITS = 0;
     private const int STARTER_FOOD_UNITS = 25;
     private const int STARTER_GOLD_UNITS = 8;
+    private const int STARTER_FOODSTORAGE_SIZE = 20;
 
     private const int HUNGER_DIV_RATIO = 25; // 1/4th
 
 
 
     // Village stats
-    public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY, POPULATION, MAX_POPULATION }
+    public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY, POPULATION, MAX_POPULATION, FOOD_STORAGE }
     public int happiness { get; set; }
     public const int MAX_HAPPINESS = 100;
     public int hunger { get; set; }
@@ -34,7 +35,8 @@ public class World : MonoBehaviour {
     public const int MAX_MILITARY = 100;
     public int fertility { get; set; }
     public const int MAX_FERTILITY = 100;
-
+    public int foodStorage { get; set; }
+    public const int MAX_STORAGE = 1000;
 
     // Ressources
     public Dictionary<Ressource.TYPE, int> ressource_table;
@@ -65,6 +67,7 @@ public class World : MonoBehaviour {
         max_buildings = STARTER_MAX_BUILDINGS;
         max_villagers = STARTER_MAX_VILLAGER;
         max_trees = STARTER_MAX_TREES;
+        foodStorage = STARTER_FOODSTORAGE_SIZE;
         ressource_table = new Dictionary<Ressource.TYPE, int>();
         strategies = new List<Strategy>();
         events = new LinkedList<CoreEvent>();
@@ -271,7 +274,10 @@ public class World : MonoBehaviour {
 
         fertility = (fertility > MAX_FERTILITY) ? MAX_FERTILITY : fertility;
         fertility = (fertility < 0) ? 0 : fertility;
-       
+
+        foodStorage = (foodStorage > MAX_STORAGE) ? MAX_STORAGE : foodStorage;
+        foodStorage = (foodStorage < 0) ? 0 : foodStorage;
+
         //////////////////////////////////////////////
         // Village Ressource updates
         List<Ressource.TYPE> keys = new List<Ressource.TYPE>(ressource_table.Keys);

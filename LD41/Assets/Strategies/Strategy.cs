@@ -11,7 +11,7 @@ namespace Assets.Strategies
 
     public abstract class  Strategy
     {
-        protected const bool TEST_MODE = true;
+        protected const bool TEST_MODE = false;
 
         abstract public List<CoreEvent> getOutputEvents();
 
