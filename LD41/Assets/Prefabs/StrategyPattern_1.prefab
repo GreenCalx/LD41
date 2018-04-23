@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1443586372707788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -67,6 +67,7 @@ MonoBehaviour:
   _offset: 0
   _miss: 0
   _name: StrategyPattern_1
+  _first_stroke_color: {r: 0, g: 0, b: 0, a: 0}
   _sprite: {fileID: 0}
 --- !u!114 &114231927627714572
 MonoBehaviour:
@@ -87,7 +88,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114205001537325362}
 --- !u!114 &114333328345359800
 MonoBehaviour:
@@ -108,7 +111,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114205001537325362}
 --- !u!114 &114361451792820734
 MonoBehaviour:
@@ -129,7 +134,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114205001537325362}
 --- !u!114 &114964300974397434
 MonoBehaviour:
@@ -150,5 +157,7 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114205001537325362}

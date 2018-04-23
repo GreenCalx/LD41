@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4653220620239306}
   - component: {fileID: 114279976052792982}
+  - component: {fileID: 114684278500071090}
   - component: {fileID: 114806241603766324}
   m_Layer: 0
   m_Name: StrategyPattern_2
@@ -36,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1673276090061232}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.006666667, y: 0.049999997, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -64,6 +65,29 @@ MonoBehaviour:
     type: 2}
   _sprite: {fileID: 0}
   _sequence: {fileID: 114806241603766324}
+--- !u!114 &114684278500071090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1673276090061232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76f68a685e7fc944983ae409caaaec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MS_per_beat: 500
+  _BPM: 120
+  _length: 2000
+  _offset: 1000
+  _size: 125
+  HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
+  _is_hittable: 1
+  _is_alive: 0
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
+  _sequence: {fileID: 114806241603766324}
 --- !u!114 &114806241603766324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitObjects:
   - {fileID: 114279976052792982}
+  - {fileID: 114684278500071090}
   _Time_Since_Start: 0
   _loop: 1
   _is_playing: 0
