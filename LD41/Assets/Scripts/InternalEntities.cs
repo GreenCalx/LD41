@@ -7,5 +7,6 @@ namespace Assets.Scripts
 {
     public class InternalEntities : Entities
     {
+        public STATE currentState { get; set; }
     }
 }

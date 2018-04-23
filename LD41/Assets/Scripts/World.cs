@@ -13,7 +13,10 @@ public class World : MonoBehaviour {
     public const int MAX_POIS = 50;
     private const int STARTER_MAX_VILLAGER = 6;
     private const int STARTER_MAX_BUILDINGS = 10;
-    private const int STARTER_MAX_TREES = 10;
+    private const int STARTER_MAX_TREES = 20;
+    private const int STARTER_MAX_ROCKS = 20;
+    private const int STARTER_MAX_IRON = 20;
+    private const int STARTER_MAX_CROPS = 20;
     private const int STARTER_WOOD_UNITS = 50;
     private const int STARTER_STONE_UNITS = 20;
     private const int STARTER_IRON_UNITS = 0;
@@ -56,6 +59,16 @@ public class World : MonoBehaviour {
 
     public int max_trees { get; set; }
     private List<POI.Tree> __trees_pois;
+
+    public int max_rocks { get; set; }
+    private List<Rocks> __rocks_pois;
+
+    public int max_iron { get; set; }
+    private List<Iron> __iron_pois;
+
+    public int max_CropField { get; set; }
+    private List<CropField> __cropfield_pois;
+
 
     public int max_villagers { get; set; }
     public int population { get; set; }
@@ -138,7 +151,26 @@ public class World : MonoBehaviour {
         foreach (POI.Tree t in trees)
             if (!__trees_pois.Contains(t)) __trees_pois.Add(t);
             else if ( t.ressource_units_pool <= 0 ) Destroy(t.gameObject);
+       
+        // Rocks
+        Rocks[] rocks = GameObject.FindObjectsOfType<Rocks>();
+        foreach (Rocks r in rocks)
+            if (!__rocks_pois.Contains(r)) __rocks_pois.Add(r);
+            else if (r.ressource_units_pool <= 0) Destroy(r.gameObject);
 
+        // Iron
+        Iron[] irons = GameObject.FindObjectsOfType<Iron>();
+        foreach (Iron i in irons)
+            if (!__iron_pois.Contains(i)) __iron_pois.Add(i);
+            else if (i.ressource_units_pool <= 0) Destroy(i.gameObject);
+
+        // Iron
+        CropField[] fields = GameObject.FindObjectsOfType<CropField>();
+        foreach (CropField cf in fields)
+            if (!__cropfield_pois.Contains(cf)) __cropfield_pois.Add(cf);
+            else if (cf.ressource_units_pool <= 0) Destroy(cf.gameObject);
+
+        
         // Buildings
         Building[] buildings = GameObject.FindObjectsOfType<Building>();
         foreach (Building b in buildings)
@@ -156,7 +188,13 @@ public class World : MonoBehaviour {
         //Randomize color
         SpriteRenderer sr = newVillager.GetComponent<SpriteRenderer>();
         Random r = new Random();
-        sr.color =  Random.ColorHSV();
+        
+        Color color = new Color();
+        color.r = UnityEngine.Random.Range(150f, 256f);
+        color.g = UnityEngine.Random.Range(150f, 256f);
+        color.b = UnityEngine.Random.Range(150f, 256f);
+        color.a = UnityEngine.Random.Range(225f, 256f);
+        sr.color =  /* Random.ColorHSV();*/ color;
 
         return newVillager;
     }
@@ -170,6 +208,15 @@ public class World : MonoBehaviour {
     // Mutators
     public List<POI.Tree> getTrees()
     { return __trees_pois; }
+
+    public List<Rocks> getRocks()
+    { return __rocks_pois; }
+
+    public List<Iron> getIron()
+    { return __iron_pois; }
+
+    public List<CropField> getCropField()
+    { return __cropfield_pois; }
 
     public void addBuilding(Building iBuilding)
     { if (!!iBuilding) __building_pois.Add(iBuilding); }
@@ -194,17 +241,37 @@ public class World : MonoBehaviour {
             // Init Default Buildings
             max_buildings = STARTER_MAX_BUILDINGS;
         __building_pois = new List<Building>(max_buildings);
-       // for (int i = 0; i < __building_pois.Capacity; ++i)
-       //     __building_pois.Add( new Building() );
+
 
         // Init Default Trees
         max_trees = STARTER_MAX_TREES;
         __trees_pois = new List<POI.Tree>();
-        //GameObject[] trees_go = GameObject.FindGameObjectsWithTag(POI.Tree.POI_NAME);
         POI.Tree[] trees = GameObject.FindObjectsOfType<POI.Tree>();
         foreach (POI.Tree t in trees)
             __trees_pois.Add( t );
 
+        // Init Default Rocks
+        max_rocks = STARTER_MAX_ROCKS;
+        __rocks_pois = new List<Rocks>();
+        Rocks[] rocks = GameObject.FindObjectsOfType<Rocks>();
+        foreach (Rocks r in rocks)
+            __rocks_pois.Add(r);
+
+        // Init Default Irons
+        max_trees = STARTER_MAX_IRON;
+        __iron_pois = new List<Iron>();
+        Iron[] irons = GameObject.FindObjectsOfType<Iron>();
+        foreach (Iron i in irons)
+            __iron_pois.Add(i);
+
+        // Init Default Irons
+        max_CropField = STARTER_MAX_CROPS;
+        __cropfield_pois = new List<CropField>();
+        CropField[] cfs = GameObject.FindObjectsOfType<CropField>();
+        foreach (CropField cf in cfs)
+            __cropfield_pois.Add(cf);
+
+        
     }
 
 
@@ -260,6 +327,8 @@ public class World : MonoBehaviour {
         foreach (CoreEvent e in worldFromStatsEvents)
             events.AddLast(e);
 
+        //////////////////////// POINT OF INTEREST ////////////////////////
+        // May be Factorizable
         // Generate events from Buildings
         foreach ( Building building in __building_pois)
         {
@@ -279,8 +348,31 @@ public class World : MonoBehaviour {
             foreach (CoreEvent e in treeEvents)
                 events.AddLast(e);
         }
-
-
+        // Generate events from Rocks
+        foreach (Rocks rock in __rocks_pois)
+        {
+            List<CoreEvent> rockEvents = rock.generateEvents();
+            if (null == rockEvents) continue;
+            foreach (CoreEvent e in rockEvents)
+                events.AddLast(e);
+        }
+        // Generate events from Iron
+        foreach (Iron iron in __iron_pois)
+        {
+            List<CoreEvent> ironEvents = iron.generateEvents();
+            if (null == ironEvents) continue;
+            foreach (CoreEvent e in ironEvents)
+                events.AddLast(e);
+        }
+        // Generate events from Iron
+        foreach (CropField cf in __cropfield_pois)
+        {
+            List<CoreEvent> cfEvents = cf.generateEvents();
+            if (null == cfEvents) continue;
+            foreach (CoreEvent e in cfEvents)
+                events.AddLast(e);
+        }
+        
         //////////////////////////////////////////////
         // Apply Events in Queue
         List<WorldEffector> worldEffectors = new List<WorldEffector>();

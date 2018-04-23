@@ -11,12 +11,18 @@ namespace Assets.Scripts
     {
         protected VillagerSpawn _spawner;
 
-        public STATE currentState { get; set; }
+
 
         public void teleportToPOI(PointOfInterest POI)
         {
             if (!!POI)
-                transform.position = POI.transform.position;
+            {
+                int user_index = POI.user_index(this);
+                float x_offset = (float)(user_index * 0.5);
+                float y_offset = (float)(user_index * 0.2);
+                Vector3 offset = new Vector3(0 + x_offset, 0 + y_offset, -0.1f);
+                transform.position = POI.transform.position + offset;
+            }
         }
 
         public Villager()
@@ -25,19 +31,15 @@ namespace Assets.Scripts
         }
 
         // ---------- WOOD ------------
-        public void getWood()
+        public bool seekWood()
         {
-
-        }
-
-        public void seekWood()
-        {
+            bool foundAJob = false;
             GameObject world_GO = GameObject.Find("World");
             World world = world_GO.GetComponent<World>();
 
             List<POI.Tree> trees = world.getTrees();
             if ((trees == null) || (trees.Count == 0))
-                return;
+                return foundAJob;
 
             // Select a Tree
             foreach (POI.Tree tree in trees)
@@ -48,9 +50,92 @@ namespace Assets.Scripts
                     teleportToPOI(tree);
 
                     currentState = STATE.BUSY;
+                    foundAJob = true;
                     break;
                 }
             }
+            return foundAJob;
+        }
+
+        
+        public bool seekStone()
+        {
+            bool foundAJob = false;
+
+            GameObject world_GO = GameObject.Find("World");
+            World world = world_GO.GetComponent<World>();
+
+            List<Rocks> rocks = world.getRocks();
+            if ((rocks == null) || (rocks.Count == 0))
+                return foundAJob;
+
+            // Select a Tree
+            foreach (Rocks rock in rocks)
+            {
+                if (rock.use(this))
+                {
+                    // Teleport to PoI
+                    teleportToPOI(rock);
+                    foundAJob = true;
+                    currentState = STATE.BUSY;
+                    break;
+                }
+            }
+            return foundAJob;
+
+        }
+
+        public bool seekIron()
+        {
+            bool foundAJob = false;
+
+            GameObject world_GO = GameObject.Find("World");
+            World world = world_GO.GetComponent<World>();
+
+            List<Iron> irons = world.getIron();
+            if ((irons == null) || (irons.Count == 0))
+                return foundAJob;
+
+            // Select a Tree
+            foreach (Iron iron in irons)
+            {
+                if (iron.use(this))
+                {
+                    // Teleport to PoI
+                    teleportToPOI(iron);
+
+                    foundAJob = true;
+                    currentState = STATE.BUSY;
+                    break;
+                }
+            }
+            return foundAJob;
+        }
+
+        public bool seekFood()
+        {
+            bool foundAJob = false;
+
+            GameObject world_GO = GameObject.Find("World");
+            World world = world_GO.GetComponent<World>();
+
+            List<CropField> cfs = world.getCropField();
+            if ((cfs == null) || (cfs.Count == 0))
+                return foundAJob;
+
+            // Select a Tree
+            foreach (CropField cf in cfs)
+            {
+                if (cf.use(this))
+                {
+                    // Teleport to PoI
+                    teleportToPOI(cf);
+
+                    currentState = STATE.BUSY;
+                    break;
+                }
+            }
+            return foundAJob;
         }
 
         // ----------------------------
@@ -70,7 +155,10 @@ namespace Assets.Scripts
                     if (!!_spawner)
                         teleportToPOI(_spawner);
                 // OCCUPY
-                seekWood();
+                if (!seekWood())
+                    if (!seekStone())
+                        if (!seekIron())
+                            seekWood();
             }
         }
 

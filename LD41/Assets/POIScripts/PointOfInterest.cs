@@ -23,6 +23,8 @@ namespace POI
             }
             return false;
         }
+        public int user_index (InternalEntities iIE)
+        { return users.IndexOf(iIE); }
 
         // EVENTS
         public abstract List<CoreEvent> generateEvents();

@@ -16,7 +16,7 @@ namespace POI
         
         public Tree()
         {
-            MAX_USERS = 1;
+            MAX_USERS = 2;
             users = new List<InternalEntities>(MAX_USERS);
         }
 
@@ -38,9 +38,15 @@ namespace POI
 
         void Update()
         {
-            
+
             if (ressource_units_pool < 0)
+            {
+                // Unsubscribe users
+                foreach (InternalEntities ie in users)
+                    ie.currentState = Entities.STATE.FREE;
+
                 Destroy(gameObject);
+            }
                 
         }
     }
