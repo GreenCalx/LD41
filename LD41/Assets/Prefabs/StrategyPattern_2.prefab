@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1673276090061232}
+  m_IsPrefabParent: 1
+--- !u!1 &1673276090061232
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4653220620239306}
+  - component: {fileID: 114279976052792982}
+  - component: {fileID: 114806241603766324}
+  m_Layer: 0
+  m_Name: StrategyPattern_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4653220620239306
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1673276090061232}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.006666667, y: 0.049999997, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114279976052792982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1673276090061232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76f68a685e7fc944983ae409caaaec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MS_per_beat: 500
+  _BPM: 120
+  _length: 2000
+  _offset: 0
+  _size: 125
+  HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
+  _is_hittable: 1
+  _is_alive: 0
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
+  _sequence: {fileID: 114806241603766324}
+--- !u!114 &114806241603766324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1673276090061232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78402fee75a11dc44876041bdc7e6c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitObjects:
+  - {fileID: 114279976052792982}
+  _Time_Since_Start: 0
+  _loop: 1
+  _is_playing: 0
+  _length: 2000
+  _offset: 0
+  _miss: 0
+  _name: StrategyPattern_2
+  _first_stroke_color: {r: 1, g: 0, b: 0.84827566, a: 0}
+  _sprite: {fileID: 0}

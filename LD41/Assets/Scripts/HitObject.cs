@@ -14,14 +14,19 @@ public class HitObject : MonoBehaviour {
     public bool _is_hittable;
     public bool _is_alive;
 
+    public GameObject _sprite_prefab;
     public GameObject _sprite;
-   // public GameObject Clone;
+    // public GameObject Clone;
 
-    public Sequence _sequence;
+    public Sequence   _sequence;
 
     // Use this for initialization
     void Start()
     {
+        if (_sprite_prefab)
+        {
+            _sprite = Instantiate(_sprite_prefab);
+        }
         _is_hittable = true;
         //_is_alive = true;
         SpriteRenderer sr = _sprite.GetComponent<SpriteRenderer>();
@@ -32,11 +37,11 @@ public class HitObject : MonoBehaviour {
             float min = b.min.x;
 
             float ppu = sr.sprite.pixelsPerUnit;
-
-            float pps = 0.00075f;
-            float ppsSize = pps* _size;
+            float pix_per_ms = 0.005f;
+            float ppsSize = pix_per_ms * _size;
             float ppsSizeScale = ppsSize * ppu;
-            sr.transform.localScale = new Vector3(ppsSizeScale, sr.transform.localScale.y, sr.transform.localScale.z);
+            sr.transform.localScale = new Vector3(ppsSizeScale, 100, 1);
+            //sr.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
@@ -50,14 +55,13 @@ public class HitObject : MonoBehaviour {
     {
 
     }
-
     // EVENTS
     public void OnHit()
     {
         if (_is_hittable)
         {
             AudioSource.PlayClipAtPoint(HitSound, transform.position, 1);
-            Fretboard f = GetComponent<Fretboard>();
+            Fretboard f = GetComponentInParent<Fretboard>();
             if (f)
             {
                 f.OnHit();
@@ -70,7 +74,7 @@ public class HitObject : MonoBehaviour {
     public void OnMiss()
     {
         AudioSource.PlayClipAtPoint(HitSound, transform.position, 0.25f);
-        Fretboard f = GetComponent<Fretboard>();
+        Fretboard f = GetComponentInParent<Fretboard>();
         if (f)
         {
             f.OnMiss();

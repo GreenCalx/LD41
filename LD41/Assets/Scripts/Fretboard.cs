@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Fretboard : MonoBehaviour {
 
+    public Sequence _sequence_prefab;
+
     public Sequence _sequence;
     public Sequence _sequence_loop; //needed for loops
 
@@ -17,26 +19,59 @@ public class Fretboard : MonoBehaviour {
 
     public Vector3 _position_pick;
 
+    public float _pick_percentage_position;
+    public float _pick_width_percentage;
+    public float _pick_height_percentage;
+
+    public SpriteRenderer _sprite_render;
+
     public float _time;
 
 	// Use this for initialization
 	void Start () {
+
+        if (_sequence_prefab)
+        {
+            _sequence = Instantiate(_sequence_prefab);
+            _sequence.transform.parent = gameObject.transform;
+            _other_sequence = Instantiate(_sequence_prefab);
+            _other_sequence.transform.parent = gameObject.transform;
+
+            //Destroy(_sequence_prefab);
+        }
+
         _time = 0;
-        _position_pick = new Vector3(-0.6f, 0, 0);
+        _pick_percentage_position = 0.2f;
+        _pick_width_percentage = 0.05f;
+        _pick_height_percentage = 1f;
+
+        _sprite_render = GetComponent<SpriteRenderer>();
+        Bounds bounds = _sprite_render.bounds;
+        float ppu = _sprite_render.sprite.pixelsPerUnit;
+
+        float position_pick_x = bounds.min.x + _pick_percentage_position * (bounds.max.x - bounds.min.x);
+        _position_pick = new Vector3(position_pick_x, 0, 0);
 
         _pick = gameObject.AddComponent<Pick>();
+        _pick._width = _pick_width_percentage * (bounds.max.x - bounds.min.x) * ppu;
+        _pick._height = _pick_height_percentage * (bounds.max.y - bounds.min.y) * ppu;
         _pick._sprite = Instantiate(_HitSprite);
         _pick._fretboard = this;
         _pick._sprite.transform.localPosition = _position_pick;
 
-        _sequence = gameObject.AddComponent<Sequence>();
-        _sequence._sprite = _HitSprite;
-        _sequence.Init();
+        if (!_sequence)
+        {
+            _sequence = gameObject.AddComponent<Sequence>();
+            _sequence._sprite = _HitSprite;
+            _sequence.Init();
+        }
 
-        _other_sequence = gameObject.AddComponent<Sequence>();
-        _other_sequence._sprite = _HitSprite;
-        _other_sequence.Init2();
-
+        if (!_other_sequence)
+        {
+            _other_sequence = gameObject.AddComponent<Sequence>();
+            _other_sequence._sprite = _HitSprite;
+            _other_sequence.Init2();
+        }
         /*_sequence_loop = gameObject.AddComponent<Sequence>();
         _sequence_loop._sprite = _HitSprite;
         _sequence_loop.Init();
@@ -107,7 +142,7 @@ public class Fretboard : MonoBehaviour {
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr)
-        {
+        { 
             sr.color = new Color(0, 1, 0);
         }
     }
@@ -143,10 +178,14 @@ public class Fretboard : MonoBehaviour {
                 float size = sr.bounds.max.x - sr.bounds.min.x;
                 float left = _pick._sprite.transform.position.x;
                 float right = sr.bounds.max.x + (_pick._sprite.transform.position.x - sr.bounds.max.x);
+                float pixel_per_unit = sr.sprite.pixelsPerUnit;
                 float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
+                float new_position = left + (pixel_per_ms * (current_time_clipped + HO._size / 2));
+                float new_position_scaled = new_position / 1000.0f;
                 if (_HitSprite)
                 {
-                    HO._sprite.transform.position = new Vector3(left + (pixel_per_ms * (current_time_clipped + HO._size / 2)) , transform.position.y, 0);
+                    HO._sprite.transform.position = new Vector3(new_position, 0, 0);
+                    //HO._sprite.transform.position = new Vector3(0, 0, 0);
                 }
             }
         }
@@ -161,9 +200,12 @@ public class Fretboard : MonoBehaviour {
                     float left = _pick._sprite.transform.position.x;
                     float right = sr.bounds.max.x + (_pick._sprite.transform.position.x - sr.bounds.min.x);
                     float pixel_per_ms = (size / 4) / _sequence.HitObjects[0]._MS_per_beat;
+                    float new_position = right + (pixel_per_ms * (current_time_clipped + HO._size / 2));
+                    float new_position_scaled = new_position / 1000.0f;
                     if (_HitSprite)
                     {
-                        HO._sprite.transform.position = new Vector3(right + (pixel_per_ms * (current_time_clipped + HO._size / 2)), transform.position.y, 0);
+                        HO._sprite.transform.localPosition = new Vector3( new_position, 0, 0);
+                        //HO._sprite.transform.position = new Vector3(0, 0, 0);
                     }
                 }
             }

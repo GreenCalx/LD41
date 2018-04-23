@@ -15,12 +15,18 @@ public class Sequence : MonoBehaviour
     int _hit = 0;
     public string _name;
 
+    public Color _first_stroke_color;
+
     public GameObject _sprite;
 
     // Use this for initialization
     void Start()
     {
-
+        if (HitObjects.Count !=0)
+        {
+            SpriteRenderer sr = HitObjects[0]._sprite.GetComponent<SpriteRenderer>();
+            sr.color = new Color(1, 1, 0);
+        }
     }
 
     public void Init()
@@ -196,7 +202,7 @@ public class Sequence : MonoBehaviour
 
         if (_miss != 0)
         {
-            Fretboard f = GetComponent<Fretboard>();
+            Fretboard f = GetComponentInParent<Fretboard>();
             if (f)
             {
                 if (_player_miss != 0)
@@ -223,7 +229,7 @@ public class Sequence : MonoBehaviour
             // output success pattern
         }
 
-        Fretboard f2 = GetComponent<Fretboard>();
+        Fretboard f2 = GetComponentInParent<Fretboard>();
         if (f2)
         {
             f2.OnSequenceEnd();
@@ -254,7 +260,7 @@ public class Sequence : MonoBehaviour
 
             }
             ++_player_miss;
-            Fretboard f = GetComponent<Fretboard>();
+            Fretboard f = GetComponentInParent<Fretboard>();
             if (f)
             {
                 f.OnMiss();
