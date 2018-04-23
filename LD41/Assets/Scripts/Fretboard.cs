@@ -7,6 +7,8 @@ public class Fretboard : MonoBehaviour {
     public Sequence _sequence;
     public Sequence _sequence_loop; //needed for loops
 
+    public Sequence _other_sequence;
+
     public Pick _pick;
 
     public GameObject _HitSprite;
@@ -15,8 +17,11 @@ public class Fretboard : MonoBehaviour {
 
     public Vector3 _position_pick;
 
+    public float _time;
+
 	// Use this for initialization
 	void Start () {
+        _time = 0;
         _position_pick = new Vector3(-0.6f, 0, 0);
 
         _pick = gameObject.AddComponent<Pick>();
@@ -28,13 +33,17 @@ public class Fretboard : MonoBehaviour {
         _sequence._sprite = _HitSprite;
         _sequence.Init();
 
+        _other_sequence = gameObject.AddComponent<Sequence>();
+        _other_sequence._sprite = _HitSprite;
+        _other_sequence.Init2();
+
         /*_sequence_loop = gameObject.AddComponent<Sequence>();
         _sequence_loop._sprite = _HitSprite;
         _sequence_loop.Init();
         _sequence_loop.AddOffset(_sequence._length);
         _sequence_loop._length += _sequence._length;
         */
-       // _sequence._length *= 2;
+        // _sequence._length *= 2;
 
         Init();
     }
@@ -47,12 +56,28 @@ public class Fretboard : MonoBehaviour {
         //_sequence_loop.Begin();
     }
 
+    void switchSequence()
+    {
+        _sequence.Stop();
+        _other_sequence.Stop();
+        Sequence tmp = _sequence;
+        _sequence = _other_sequence;
+        _other_sequence = tmp;
+        _sequence.Begin();
+    }
+
+    public void OnSequenceEnd()
+    {
+            switchSequence();
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Order is important
         if (_pick && _sequence) // && _sequence_loop)
         {
+
             _pick.Do();
             
             _sequence.Do();
