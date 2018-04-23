@@ -14,8 +14,8 @@ namespace POI
         public int storageSize = 20; // storage increase
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
-            {Ressource.TYPE.WOOD, 15 },
-            {Ressource.TYPE.STONE, 10 }
+            {Ressource.TYPE.WOOD, 200 },
+            {Ressource.TYPE.STONE, 100 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()

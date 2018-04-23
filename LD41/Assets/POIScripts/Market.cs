@@ -18,8 +18,8 @@ namespace POI
 
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
-            {Ressource.TYPE.WOOD, 0 },
-            {Ressource.TYPE.STONE, 0 }
+            {Ressource.TYPE.WOOD, 700 },
+            {Ressource.TYPE.STONE, 300 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()
