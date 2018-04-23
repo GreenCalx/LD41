@@ -200,7 +200,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1370951273213318, guid: 415b6de5c408c4f4797b688540e6c900, type: 2}
       propertyPath: m_Name
-      value: Fretboard_Diplomatoic_Strategy
+      value: Fretboard_Diplomatic_Strategy
       objectReference: {fileID: 0}
     - target: {fileID: 212929566463851400, guid: 415b6de5c408c4f4797b688540e6c900,
         type: 2}
@@ -222,6 +222,17 @@ Prefab:
       propertyPath: _sequence_prefab
       value: 
       objectReference: {fileID: 114844279578960370, guid: a35157151f8dfbb40b83e558cb30df29,
+        type: 2}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick_prefab
+      value: 
+      objectReference: {fileID: 114671565010655078, guid: 8ca99e2ff4df6164a8e56bf4b1b37032,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 415b6de5c408c4f4797b688540e6c900, type: 2}
@@ -773,6 +784,17 @@ Prefab:
       propertyPath: _sequence_prefab
       value: 
       objectReference: {fileID: 114806241603766324, guid: a8d2ef4beac4cd74380e2916833e9e24,
+        type: 2}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick_prefab
+      value: 
+      objectReference: {fileID: 114205725860011974, guid: 46bbfd5c43d62dd4e90654e070905ef1,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 415b6de5c408c4f4797b688540e6c900, type: 2}
@@ -1535,6 +1557,17 @@ Prefab:
       propertyPath: _sequence_prefab
       value: 
       objectReference: {fileID: 114205001537325362, guid: 361576f7ad2f12040a3b42891a720761,
+        type: 2}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114921702770109674, guid: 415b6de5c408c4f4797b688540e6c900,
+        type: 2}
+      propertyPath: _pick_prefab
+      value: 
+      objectReference: {fileID: 114302563609820102, guid: b38bc005b1f98694b9c3a2b65bb1163c,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 415b6de5c408c4f4797b688540e6c900, type: 2}

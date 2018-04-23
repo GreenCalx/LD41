@@ -188,13 +188,6 @@ public class Sequence : MonoBehaviour
     // EVENTS
     public void OnEnd()
     {
-        if (_loop) BeginAt(_Time_Since_Start - _length);
-        else
-        {
-            Stop();
-            _Time_Since_Start = 0;
-        }
-
         foreach (HitObject HO in HitObjects)
         {
             HO.Reset();
@@ -228,12 +221,19 @@ public class Sequence : MonoBehaviour
             }
             // output success pattern
         }
+        if (_loop) BeginAt(_Time_Since_Start - _length);
+        else
+        {
+            Stop();
+            _Time_Since_Start = 0;
+        }
 
         Fretboard f2 = GetComponentInParent<Fretboard>();
         if (f2)
         {
             f2.OnSequenceEnd();
         }
+
     }
 
     public void OnPick()
@@ -260,6 +260,7 @@ public class Sequence : MonoBehaviour
 
             }
             ++_player_miss;
+            ++_miss;
             Fretboard f = GetComponentInParent<Fretboard>();
             if (f)
             {

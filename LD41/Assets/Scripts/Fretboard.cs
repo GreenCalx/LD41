@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fretboard : MonoBehaviour {
+public class Fretboard : MonoBehaviour
+{
 
     public Sequence _sequence_prefab;
 
@@ -11,6 +12,7 @@ public class Fretboard : MonoBehaviour {
 
     public Sequence _other_sequence;
 
+    public Pick _pick_prefab;
     public Pick _pick;
 
     public GameObject _HitSprite;
@@ -27,23 +29,15 @@ public class Fretboard : MonoBehaviour {
 
     public float _time;
 
-	// Use this for initialization
-	void Start () {
-
-        if (_sequence_prefab)
-        {
-            _sequence = Instantiate(_sequence_prefab);
-            _sequence.transform.parent = gameObject.transform;
-            _other_sequence = Instantiate(_sequence_prefab);
-            _other_sequence.transform.parent = gameObject.transform;
-
-            //Destroy(_sequence_prefab);
-        }
-
+    // Use this for initialization
+    void Start()
+    {
         _time = 0;
         _pick_percentage_position = 0.2f;
         _pick_width_percentage = 0.05f;
         _pick_height_percentage = 1f;
+
+        if(_tokens == null) _tokens = new Queue<Assets.Scripts.Token>();
 
         _sprite_render = GetComponent<SpriteRenderer>();
         Bounds bounds = _sprite_render.bounds;
@@ -52,12 +46,33 @@ public class Fretboard : MonoBehaviour {
         float position_pick_x = bounds.min.x + _pick_percentage_position * (bounds.max.x - bounds.min.x);
         _position_pick = new Vector3(position_pick_x, transform.position.y, 0);
 
-        _pick = gameObject.AddComponent<Pick>();
-        _pick._width = _pick_width_percentage * (bounds.max.x - bounds.min.x) * ppu;
-        _pick._height = _pick_height_percentage * (bounds.max.y - bounds.min.y) * ppu;
-        _pick._sprite = Instantiate(_HitSprite);
-        _pick._fretboard = this;
-        _pick._sprite.transform.localPosition = _position_pick;
+        // Initialise pick
+        if (_pick_prefab)
+        {
+            _pick = Instantiate(_pick_prefab);
+            _pick._fretboard = this;
+        }
+
+        if (!_pick)
+        {
+            _pick = gameObject.AddComponent<Pick>();
+            _pick._width = _pick_width_percentage * (bounds.max.x - bounds.min.x) * ppu;
+            _pick._height = _pick_height_percentage * (bounds.max.y - bounds.min.y) * ppu;
+            _pick._sprite_prefab = _HitSprite;
+            _pick._fretboard = this;
+            //_pick._sprite.transform.localPosition = _position_pick;
+        }
+
+        _pick._position = _position_pick;
+
+        // Initialise sequences
+        if (_sequence_prefab)
+        {
+            _sequence = Instantiate(_sequence_prefab);
+            _sequence.transform.parent = gameObject.transform;
+            _other_sequence = Instantiate(_sequence_prefab);
+            _other_sequence.transform.parent = gameObject.transform;
+        }
 
         if (!_sequence)
         {
@@ -72,23 +87,14 @@ public class Fretboard : MonoBehaviour {
             _other_sequence._sprite = _HitSprite;
             _other_sequence.Init2();
         }
-        /*_sequence_loop = gameObject.AddComponent<Sequence>();
-        _sequence_loop._sprite = _HitSprite;
-        _sequence_loop.Init();
-        _sequence_loop.AddOffset(_sequence._length);
-        _sequence_loop._length += _sequence._length;
-        */
-        // _sequence._length *= 2;
 
         Init();
     }
 
 
     private void Init()
-    {
-        _tokens = new Queue<Assets.Scripts.Token>();
+    {   
         _sequence.Begin();
-        //_sequence_loop.Begin();
     }
 
     void switchSequence()
@@ -103,7 +109,7 @@ public class Fretboard : MonoBehaviour {
 
     public void OnSequenceEnd()
     {
-            switchSequence();
+        switchSequence();
     }
 
     // Update is called once per frame
@@ -114,7 +120,7 @@ public class Fretboard : MonoBehaviour {
         {
 
             _pick.Do();
-            
+
             _sequence.Do();
 
             DrawSequence();
@@ -142,7 +148,7 @@ public class Fretboard : MonoBehaviour {
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr)
-        { 
+        {
             sr.color = new Color(0, 1, 0);
         }
     }
@@ -150,7 +156,7 @@ public class Fretboard : MonoBehaviour {
     public void OnMiss()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if(sr)
+        if (sr)
         {
             sr.color = new Color(1, 0, 0);
         }
@@ -163,11 +169,11 @@ public class Fretboard : MonoBehaviour {
     }
 
     // RENDER
-    void DrawAtPixelFromBPM( HitObject HO )
+    void DrawAtPixelFromBPM(HitObject HO)
     {
         float current_time = _sequence._Time_Since_Start;
         float hb_end = HO._offset + HO._size;
-         float current_time_clipped = (HO._offset ) - current_time;
+        float current_time_clipped = (HO._offset) - current_time;
         float hb_end_time = hb_end + 200 - (current_time);
 
         if (hb_end_time > 0)
@@ -204,7 +210,7 @@ public class Fretboard : MonoBehaviour {
                     float new_position_scaled = new_position / 1000.0f;
                     if (_HitSprite)
                     {
-                        HO._sprite.transform.localPosition = new Vector3( new_position, transform.position.y, 1);
+                        HO._sprite.transform.localPosition = new Vector3(new_position, transform.position.y, 1);
                         //HO._sprite.transform.position = new Vector3(0, 0, 0);
                     }
                 }
@@ -214,9 +220,9 @@ public class Fretboard : MonoBehaviour {
 
     void DrawSequence()
     {
-        foreach( HitObject HO in _sequence.HitObjects )
+        foreach (HitObject HO in _sequence.HitObjects)
         {
-            if( _sequence._is_playing )
+            if (_sequence._is_playing)
             {
                 DrawAtPixelFromBPM(HO);
             }
