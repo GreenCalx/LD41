@@ -20,11 +20,18 @@ namespace POI
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()
         {
+            if (staticEvents.Count == 0)
+                return null;
             List<CoreEvent> dumpEvents = new List<CoreEvent>();
             dumpEvents.AddRange(staticEvents);
             if (isStaticBonus)
                 staticEvents.Clear();
             return dumpEvents;
+        }
+
+        public Storage()
+        {
+            staticEvents = new List<CoreEvent>(1);
         }
 
         // Use this for initialization

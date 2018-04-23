@@ -282,8 +282,13 @@ public class World : MonoBehaviour {
         // Village Ressource updates
         List<Ressource.TYPE> keys = new List<Ressource.TYPE>(ressource_table.Keys);
         foreach (Ressource.TYPE res in keys)
+        {
             if (ressource_table[res] < 0)
                 ressource_table[res] = 0;
+            if (res == Ressource.TYPE.FOOD)
+                if (ressource_table[res] > foodStorage)
+                    ressource_table[res] = foodStorage;
+        }
 
 
 

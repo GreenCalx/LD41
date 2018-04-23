@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts;
 using CoreEvent = Assets.Scripts.Event;
+using UnityEngine;
 
 namespace POI
 {
-    class Fort : Building
+    class Market : Building
     {
         //////////////////////////////////////////////
         // STATS
-        private int militaryValue = 10; // military increase
+        public int goldPerMerchant = 4;
+        public int merchants = 0;
+        public const int MAX_MERCHANT = 5;
+
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
             {Ressource.TYPE.WOOD, 0 },
-            {Ressource.TYPE.STONE, 0 },
-            {Ressource.TYPE.IRON, 0 }
+            {Ressource.TYPE.STONE, 0 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()
@@ -30,22 +33,22 @@ namespace POI
             return dumpEvents;
         }
 
-        public Fort()
+        public Market()
         {
-            staticEvents = new List<CoreEvent>(1);
+            staticEvents = new List<CoreEvent>();
         }
 
+        // Use this for initialization
         void Start()
         {
-            HP = 50;
-            isStaticBonus = true;
-            staticEvents = new List<CoreEvent>(1);
-            staticEvents.Add(EventBank.generateMilitaryEvent(militaryValue));
+            HP = 25;
+            isStaticBonus = false;
+            staticEvents = new List<CoreEvent>();
+            merchants = 0;
         }
 
         void Destroy()
         {
-            staticEvents.Add(EventBank.generateMilitaryEvent((-1) * militaryValue));
         }
 
         // Update is called once per frame
@@ -53,8 +56,21 @@ namespace POI
         {
             if (HP == 0)
                 Destroy();
+
+            // Poll for incoming merchant
+            World world = GameObject.FindObjectOfType<World>();
+            int road_security = (world.military / 20); // 1..5 like merchants
+            while ( (merchants < road_security) && (merchants< MAX_MERCHANT) )
+                merchants++;
+
+            // Poll for losing merchant
+            while ((merchants > road_security) && (merchants > 0))
+                merchants--;
+
+            // Resolve market
+            if (merchants > 0)
+                staticEvents.Add(EventBank.generateGoldEvent( merchants * goldPerMerchant) );
+
         }
-
-
     }
 }

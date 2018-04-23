@@ -19,6 +19,8 @@ namespace Assets.Scripts
 
         public GameObject FortPrefab = null;
 
+        public GameObject MarketPrefab = null;
+
         void Start()
         {
             if ((attachedWorld == null) || (BuildableMap == null))
@@ -39,6 +41,8 @@ namespace Assets.Scripts
                 tryBuildBuilding(Fort.cost, Building.TYPES.FORT);
             else if (Input.GetKeyDown(KeyCode.S))
                 tryBuildBuilding(Storage.cost, Building.TYPES.STORAGE);
+            else if (Input.GetKeyDown(KeyCode.M))
+                tryBuildBuilding(Storage.cost, Building.TYPES.MARKET);
 
         }
 
@@ -79,6 +83,11 @@ namespace Assets.Scripts
 
                 case Building.TYPES.FORT:
                     createdGO = Instantiate( FortPrefab );
+                    createdGO.transform.position = chosenSpot.transform.position;
+                    break;
+
+                case Building.TYPES.MARKET:
+                    createdGO = Instantiate( MarketPrefab );
                     createdGO.transform.position = chosenSpot.transform.position;
                     break;
 
