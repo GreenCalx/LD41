@@ -17,15 +17,16 @@ namespace Assets.Scripts
 
         void Update()
         {
-            // Build Mode
-            if  (Input.GetKey(KeyCode.B))
-                __isInBuildMode = !__isInBuildMode; 
-
+            // Poll for construction if in build mode
             if (__isInBuildMode)
             {
                 BuilderManager bm = GetComponent<BuilderManager>();
                 bm.PollConstruct();
             }
+
+            // Build Mode
+            if  (Input.GetKeyDown(KeyCode.B))
+                __isInBuildMode = !__isInBuildMode; 
 
         }//! Update
 

@@ -33,11 +33,11 @@ namespace Assets.Scripts
 
         public void PollConstruct()
         {
-            if (Input.GetKey(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.H))
                 tryBuildBuilding(House.cost, Building.TYPES.HOUSE);
-            if (Input.GetKey(KeyCode.B))
+            else if (Input.GetKeyDown(KeyCode.B))
                 tryBuildBuilding(Barrack.cost, Building.TYPES.BARRACK);
-            if (Input.GetKey(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S))
                 tryBuildBuilding(Storage.cost, Building.TYPES.STORAGE);
 
         }
