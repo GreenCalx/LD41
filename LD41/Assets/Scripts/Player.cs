@@ -9,10 +9,12 @@ namespace Assets.Scripts
     class Player : MonoBehaviour
     {
         private bool __isInBuildMode { get; set; }
+        private SpriteRenderer buildMode = null;
 
         void Start()
         {
             __isInBuildMode = false;
+            buildMode = GameObject.Find("buildModePanel").GetComponent<SpriteRenderer>();
         }
 
         void Update()
@@ -26,7 +28,13 @@ namespace Assets.Scripts
 
             // Build Mode
             if  (Input.GetKeyDown(KeyCode.B))
-                __isInBuildMode = !__isInBuildMode; 
+                __isInBuildMode = !__isInBuildMode;
+            if (!!buildMode)
+            {
+                buildMode.color = (__isInBuildMode) ?
+                    new Color(255, 255, 255, 255) :
+                    new Color(255, 255, 255, 0);
+            }
 
         }//! Update
 

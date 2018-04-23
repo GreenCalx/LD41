@@ -9,55 +9,55 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1822340088642472}
+  m_RootGameObject: {fileID: 1511506389667636}
   m_IsPrefabParent: 1
---- !u!1 &1822340088642472
+--- !u!1 &1511506389667636
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4313203920273092}
-  - component: {fileID: 212483746310774092}
-  - component: {fileID: 114500156715865220}
+  - component: {fileID: 4164907828497430}
+  - component: {fileID: 212501698874574964}
+  - component: {fileID: 114892128315795662}
   m_Layer: 0
-  m_Name: villager
+  m_Name: iron
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4313203920273092
+--- !u!4 &4164907828497430
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1822340088642472}
+  m_GameObject: {fileID: 1511506389667636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.37, y: -0.3, z: -1}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalPosition: {x: 10.18, y: -2.77, z: -1}
+  m_LocalScale: {x: 3.842927, y: 3.8429296, z: 3.8429296}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114500156715865220
+--- !u!114 &114892128315795662
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1822340088642472}
+  m_GameObject: {fileID: 1511506389667636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b447aa6c6505c142829615b23fcfafc, type: 3}
+  m_Script: {fileID: 11500000, guid: 76d69a2180324724f8bd3ffe98a867fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &212483746310774092
+--- !u!212 &212501698874574964
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1822340088642472}
+  m_GameObject: {fileID: 1511506389667636}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -86,12 +86,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 19f5eff6af88fdc4d89b181b9a8a23e9, type: 3}
-  m_Color: {r: 0.76912063, g: 0.08920847, b: 0.8088235, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ba86acc2b9fd858428c8142a82e85d0b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.25, y: 0.3}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

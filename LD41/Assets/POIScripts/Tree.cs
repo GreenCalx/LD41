@@ -9,17 +9,39 @@ namespace POI
 {
     public class Tree : PointOfInterest
     {
+        public const string POI_NAME = "Tree";
         public Ressource.TYPE ressourceType = Ressource.TYPE.WOOD;
         public int ressource_units_pool = 2000;
+        public int wood_per_chop = 2;
         
-        override public List<CoreEvent> generateEvents() { return null; }
-
-        public int chop()
+        public Tree()
         {
-            ressource_units_pool =- 5;
+            MAX_USERS = 1;
+            users = new List<InternalEntities>(MAX_USERS);
+        }
+
+        override public List<CoreEvent> generateEvents()
+        {
+            List<CoreEvent> events = new List<CoreEvent>();
+            foreach (InternalEntities ie in users)
+            {
+                events.Add(EventBank.generateWoodEvent(wood_per_chop));
+                ressource_units_pool -= wood_per_chop;
+            }
+            return events;
+        }
+
+        void Awake()
+        {
+            gameObject.name = POI_NAME;
+        }
+
+        void Update()
+        {
+            
             if (ressource_units_pool < 0)
-                Destroy(this);
-            return 5;
+                Destroy(gameObject);
+                
         }
     }
 }

@@ -9,12 +9,19 @@ namespace Assets.Scripts
 {
     public class Villager : InternalEntities
     {
+        protected VillagerSpawn _spawner;
+
         public STATE currentState { get; set; }
 
         public void teleportToPOI(PointOfInterest POI)
         {
             if (!!POI)
                 transform.position = POI.transform.position;
+        }
+
+        public Villager()
+        {
+            currentState = STATE.FREE;
         }
 
         // ---------- WOOD ------------
@@ -33,21 +40,38 @@ namespace Assets.Scripts
                 return;
 
             // Select a Tree
-            POI.Tree tree = trees[0];
-            if (tree != null) { 
-                // Teleport to PoI
-                teleportToPOI(tree);
+            foreach (POI.Tree tree in trees)
+            {
+                if ( tree.use(this) )
+                {
+                    // Teleport to PoI
+                    teleportToPOI(tree);
 
-                // Perform Action
-                tree.chop();
+                    currentState = STATE.BUSY;
+                    break;
+                }
             }
         }
 
         // ----------------------------
+        void Start()
+        {
+            GameObject world_GO = GameObject.Find("World");
+            _spawner = world_GO.GetComponentInChildren<VillagerSpawn>();
+            if (!!_spawner)
+                teleportToPOI(_spawner);
+        }
 
         void Update()
         {
-            seekWood();
+            if (currentState == STATE.FREE)
+            {
+                if( transform.position != _spawner.transform.position)
+                    if (!!_spawner)
+                        teleportToPOI(_spawner);
+                // OCCUPY
+                seekWood();
+            }
         }
 
     }

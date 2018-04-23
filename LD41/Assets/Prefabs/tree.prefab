@@ -52,6 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e45895d01b87d94fb130264fdb16afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  users: []
+  ressourceType: 0
+  ressource_units_pool: 2000
+  wood_per_chop: 2
 --- !u!212 &212232796585451056
 SpriteRenderer:
   m_ObjectHideFlags: 1

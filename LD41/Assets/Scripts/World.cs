@@ -60,6 +60,7 @@ public class World : MonoBehaviour {
     public int max_villagers { get; set; }
     public int population { get; set; }
     private List<Villager> __villager_entities;
+    public GameObject villagerGO;
 
 
     public World()
@@ -145,6 +146,20 @@ public class World : MonoBehaviour {
             else if (b.HP <= 0) Destroy(b.gameObject);
 
     }
+    
+    private GameObject spawnVillager()
+    {
+        GameObject newVillager = Instantiate(villagerGO);
+        Villager newVillagerBehaviour = newVillager.GetComponent<Villager>();
+        __villager_entities.Add(newVillagerBehaviour);
+
+        //Randomize color
+        SpriteRenderer sr = newVillager.GetComponent<SpriteRenderer>();
+        Random r = new Random();
+        sr.color =  Random.ColorHSV();
+
+        return newVillager;
+    }
 
 
     // ------------------------- PUBLIC SPACE -------------------------------
@@ -168,20 +183,27 @@ public class World : MonoBehaviour {
         // Init Default Villagers
         max_villagers = STARTER_MAX_VILLAGER;
        __villager_entities = new List<Villager>(max_villagers);
-        for (int i = 0; i < __villager_entities.Capacity; ++i)
-            __villager_entities.Add( new Villager() );
+        if (!!villagerGO)
+        {
+            for (int i = 0; i < __villager_entities.Capacity; ++i)
+            {
+                GameObject newVillager = spawnVillager();
+            }//! for villager
+        }// !villagerGO
 
-        // Init Default Buildings
-        max_buildings = STARTER_MAX_BUILDINGS;
+            // Init Default Buildings
+            max_buildings = STARTER_MAX_BUILDINGS;
         __building_pois = new List<Building>(max_buildings);
-        for (int i = 0; i < __building_pois.Capacity; ++i)
-            __building_pois.Add( new Building() );
+       // for (int i = 0; i < __building_pois.Capacity; ++i)
+       //     __building_pois.Add( new Building() );
 
         // Init Default Trees
         max_trees = STARTER_MAX_TREES;
-        __trees_pois = new List<POI.Tree>(max_trees);
-        for (int i = 0; i < __building_pois.Capacity; ++i)
-            __trees_pois.Add( new POI.Tree() );
+        __trees_pois = new List<POI.Tree>();
+        //GameObject[] trees_go = GameObject.FindGameObjectsWithTag(POI.Tree.POI_NAME);
+        POI.Tree[] trees = GameObject.FindObjectsOfType<POI.Tree>();
+        foreach (POI.Tree t in trees)
+            __trees_pois.Add( t );
 
     }
 
@@ -190,9 +212,6 @@ public class World : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
-        // Create base world
-        createWorld();
 
         // Add starting ressources
         ressource_table.Add(Ressource.TYPE.WOOD, STARTER_WOOD_UNITS);
@@ -205,6 +224,9 @@ public class World : MonoBehaviour {
         strategies.Add( new GrowthStrategy()     );
         strategies.Add( new MilitaryStrategy()   );
         strategies.Add( new DiplomaticStrategy() );
+
+        // Create base world
+        createWorld();
 
         // Poll the map for POIs
         updatePOIs();
@@ -248,6 +270,16 @@ public class World : MonoBehaviour {
                 events.AddLast(e);
         }
 
+        // Generate events from Trees
+        foreach (POI.Tree tree in __trees_pois)
+        {
+            List<CoreEvent> treeEvents = tree.generateEvents();
+
+            if (null == treeEvents) continue;
+            foreach (CoreEvent e in treeEvents)
+                events.AddLast(e);
+        }
+
 
         //////////////////////////////////////////////
         // Apply Events in Queue
@@ -285,9 +317,11 @@ public class World : MonoBehaviour {
         {
             if (ressource_table[res] < 0)
                 ressource_table[res] = 0;
+            
             if (res == Ressource.TYPE.FOOD)
                 if (ressource_table[res] > foodStorage)
                     ressource_table[res] = foodStorage;
+                    
         }
 
 
