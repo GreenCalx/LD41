@@ -11,7 +11,9 @@ namespace Assets.Scripts
     {
         protected VillagerSpawn _spawner;
 
-
+        private int eat_counter;
+        private const int hungry_threshold = 300;
+        private World attachedWorld;
 
         public void teleportToPOI(PointOfInterest POI)
         {
@@ -28,6 +30,7 @@ namespace Assets.Scripts
         public Villager()
         {
             currentState = STATE.FREE;
+            eat_counter = 0;
         }
 
         // ---------- WOOD ------------
@@ -143,6 +146,7 @@ namespace Assets.Scripts
         void Start()
         {
             GameObject world_GO = GameObject.Find("World");
+            attachedWorld = world_GO.GetComponent<World>();
             _spawner = world_GO.GetComponentInChildren<VillagerSpawn>();
             if (!!_spawner)
                 teleportToPOI(_spawner);
@@ -155,12 +159,24 @@ namespace Assets.Scripts
                 if( transform.position != _spawner.transform.position)
                     if (!!_spawner)
                         teleportToPOI(_spawner);
-                // OCCUPY
-                if (!seekWood())
-                    if (!seekStone())
-                        if (!seekFood())
-                            seekIron();
+
+                // ======= OCCUPY ==============
+                // > GIVE ORDERS LOGIC HERE
+
+                // DUMMY STRATEGY
+                int randomStrategy = UnityEngine.Random.Range(0, 4);
+                if (randomStrategy == 0) seekWood();
+                if (randomStrategy == 1) seekStone();
+                if (randomStrategy == 2) seekFood();
+                if (randomStrategy == 3) seekIron();
+
+                // ==============================
             }
+
+            // EATS
+            eat_counter++;
+            if (eat_counter > hungry_threshold)
+            { eat_counter = 0; attachedWorld.events.AddLast(EventBank.generateFoodEvent(-1)); }
         }
 
     }

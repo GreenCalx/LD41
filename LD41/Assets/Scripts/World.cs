@@ -31,13 +31,13 @@ public class World : MonoBehaviour {
     // Village stats
     public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY, POPULATION, MAX_POPULATION, FOOD_STORAGE }
     public int happiness { get; set; }
-    public const int MAX_HAPPINESS = 100;
+    public const int MAX_HAPPINESS = 1000;
     public int hunger { get; set; }
-    public const int MAX_HUNGER = 100;
+    public const int MAX_HUNGER = 1000;
     public int military { get; set; }
-    public const int MAX_MILITARY = 100;
+    public const int MAX_MILITARY = 1000;
     public int fertility { get; set; }
-    public const int MAX_FERTILITY = 100;
+    public const int MAX_FERTILITY = 1000;
     public int foodStorage { get; set; }
     public const int MAX_STORAGE = 1000;
 
@@ -133,12 +133,17 @@ public class World : MonoBehaviour {
         int hungerRatio = (hunger / HUNGER_DIV_RATIO);
         if (hungerRatio > 0)
             generatedEvents.Add(EventBank.generateHappinessEvent( (-1)*hungerRatio) );
+        else
+            generatedEvents.Add(EventBank.generateHappinessEvent(1));
 
 
         // food_units_missing
-        int food_units_missing = ressource_table[Ressource.TYPE.FOOD] - __villager_entities.Count;
+        int food_units_missing = population -ressource_table[Ressource.TYPE.FOOD] ;
         if (food_units_missing < 0)
-            generatedEvents.Add(EventBank.generateHungerEvent( food_units_missing ));
+            generatedEvents.Add(EventBank.generateHungerEvent(food_units_missing) );
+        else
+            generatedEvents.Add(EventBank.generateHungerEvent(food_units_missing));
+
 
 
         return generatedEvents;
@@ -416,7 +421,8 @@ public class World : MonoBehaviour {
                     
         }
 
-
+        if (population < max_villagers)
+            spawnVillager();
 
         // Console Dump
         dumpWorldValues();
