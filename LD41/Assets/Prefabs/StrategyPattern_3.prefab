@@ -249,8 +249,8 @@ MonoBehaviour:
   - {fileID: 114028604930013542}
   - {fileID: 114089503549454858}
   - {fileID: 114636295871622490}
+  - {fileID: 114801669146034076}
   - {fileID: 114275927659759106}
-  - {fileID: 114701646455399634}
   - {fileID: 114701646455399634}
   _Time_Since_Start: 0
   _loop: 1
@@ -258,6 +258,6 @@ MonoBehaviour:
   _length: 2000
   _offset: 0
   _miss: 0
-  _name: StrategyPattern_3
+  _name: defense
   _first_stroke_color: {r: 0, g: 0, b: 0, a: 0}
   _sprite: {fileID: 0}

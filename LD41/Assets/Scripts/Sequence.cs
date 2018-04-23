@@ -220,7 +220,7 @@ public class Sequence : MonoBehaviour
         }
         else
         {
-            Fretboard f = GetComponent<Fretboard>();
+            Fretboard f = GetComponentInParent<Fretboard>();
             if (f)
             {
                 Assets.Scripts.Token t = new Assets.Scripts.Token(_name, Assets.Scripts.Token.Sequence_State.Success, _hit, _miss);

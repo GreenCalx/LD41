@@ -66,7 +66,7 @@ MonoBehaviour:
   _length: 2000
   _offset: 0
   _miss: 0
-  _name: StrategyPattern_1
+  _name: test1
   _first_stroke_color: {r: 0, g: 0, b: 0, a: 0}
   _sprite: {fileID: 0}
 --- !u!114 &114231927627714572

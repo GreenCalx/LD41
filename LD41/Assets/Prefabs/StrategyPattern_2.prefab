@@ -108,6 +108,6 @@ MonoBehaviour:
   _length: 2000
   _offset: 0
   _miss: 0
-  _name: StrategyPattern_2
+  _name: farm
   _first_stroke_color: {r: 1, g: 0, b: 0.84827566, a: 0}
   _sprite: {fileID: 0}

@@ -288,9 +288,9 @@ public class World : MonoBehaviour {
         ressource_table.Add(Ressource.TYPE.GOLD, STARTER_GOLD_UNITS);
 
         // Add strategy blocks
-        strategies.Add( new GrowthStrategy()     );
-        strategies.Add( new MilitaryStrategy()   );
-        strategies.Add( new DiplomaticStrategy() );
+        strategies.Add( gameObject.AddComponent<GrowthStrategy>() );
+        strategies.Add(gameObject.AddComponent<MilitaryStrategy>()   );
+        strategies.Add(gameObject.AddComponent<DiplomaticStrategy>());
 
         // Create base world
         createWorld();

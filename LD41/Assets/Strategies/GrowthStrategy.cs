@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Assets.Scripts;
 // alias
 using CoreEvent = Assets.Scripts.Event;
@@ -12,8 +13,11 @@ namespace Assets.Strategies
     {
         public Fretboard fretBoard { get; set; }
 
-        public GrowthStrategy()
-        { fretBoard = new Fretboard(); }
+        public void Start()
+        {
+            GameObject fretBoard_ = GameObject.Find("Fretboard_Growth_Strategy");
+            fretBoard = fretBoard_.GetComponent<Fretboard>();
+        }
 
         public override List<CoreEvent> getOutputEvents()
         {
@@ -25,9 +29,16 @@ namespace Assets.Strategies
                     return null;
 
                 // Get Token From Fretboard
-                Token token = fretBoard.GetToken();
-                while (token != null)
-                { token = fretBoard.GetToken(); tokens.Add(token); }
+                Token token = null;
+                do
+                {
+                    token = fretBoard.GetToken();
+                    if (token != null)
+                    {
+                        tokens.Add(token);
+                    }
+                }
+                while (token != null);
 
             } else {
                 ///// TEST /////
