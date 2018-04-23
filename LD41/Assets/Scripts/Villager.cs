@@ -14,6 +14,7 @@ namespace Assets.Scripts
         private int eat_counter;
         private const int hungry_threshold = 300;
         private World attachedWorld;
+        private int unit_ressource_consumption = 2; // EATS THIS MUCH
 
         public void teleportToPOI(PointOfInterest POI)
         {
@@ -37,10 +38,8 @@ namespace Assets.Scripts
         public bool seekWood()
         {
             bool foundAJob = false;
-            GameObject world_GO = GameObject.Find("World");
-            World world = world_GO.GetComponent<World>();
 
-            List<POI.Tree> trees = world.getTrees();
+            List<POI.Tree> trees = attachedWorld.getTrees();
             if ((trees == null) || (trees.Count == 0))
                 return foundAJob;
 
@@ -65,10 +64,8 @@ namespace Assets.Scripts
         {
             bool foundAJob = false;
 
-            GameObject world_GO = GameObject.Find("World");
-            World world = world_GO.GetComponent<World>();
 
-            List<Rocks> rocks = world.getRocks();
+            List<Rocks> rocks = attachedWorld.getRocks();
             if ((rocks == null) || (rocks.Count == 0))
                 return foundAJob;
 
@@ -92,10 +89,7 @@ namespace Assets.Scripts
         {
             bool foundAJob = false;
 
-            GameObject world_GO = GameObject.Find("World");
-            World world = world_GO.GetComponent<World>();
-
-            List<Iron> irons = world.getIron();
+            List<Iron> irons = attachedWorld.getIron();
             if ((irons == null) || (irons.Count == 0))
                 return foundAJob;
 
@@ -119,10 +113,7 @@ namespace Assets.Scripts
         {
             bool foundAJob = false;
 
-            GameObject world_GO = GameObject.Find("World");
-            World world = world_GO.GetComponent<World>();
-
-            List<CropField> cfs = world.getCropField();
+            List<CropField> cfs = attachedWorld.getCropField();
             if ((cfs == null) || (cfs.Count == 0))
                 return foundAJob;
 
@@ -176,7 +167,7 @@ namespace Assets.Scripts
             // EATS
             eat_counter++;
             if (eat_counter > hungry_threshold)
-            { eat_counter = 0; attachedWorld.events.AddLast(EventBank.generateFoodEvent(-1)); }
+            { eat_counter = 0; attachedWorld.events.AddLast(EventBank.generateFoodEvent(-unit_ressource_consumption)); }
         }
 
     }

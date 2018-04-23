@@ -43,7 +43,7 @@ public class World : MonoBehaviour {
 
     // Ressources
     public Dictionary<Ressource.TYPE, int> ressource_table;
-
+    
     // Events
     public LinkedList<CoreEvent> events;
 
@@ -192,15 +192,9 @@ public class World : MonoBehaviour {
 
         //Randomize color
         SpriteRenderer sr = newVillager.GetComponent<SpriteRenderer>();
-        Random r = new Random();
-        
-        Color color = new Color();
-        color.r = UnityEngine.Random.Range(150f, 256f);
-        color.g = UnityEngine.Random.Range(150f, 256f);
-        color.b = UnityEngine.Random.Range(150f, 256f);
-        color.a = UnityEngine.Random.Range(225f, 256f);
-        sr.color =   Random.ColorHSV();/* color;*/
-
+        /*
+        sr.color =   Random.ColorHSV();
+        */
         return newVillager;
     }
 
