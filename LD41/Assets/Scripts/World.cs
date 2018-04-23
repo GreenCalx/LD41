@@ -201,6 +201,21 @@ public class World : MonoBehaviour {
 
     // ------------------------- PUBLIC SPACE -------------------------------
 
+    public double getScore()
+    {
+        int final_score = 0;
+
+        final_score += population * happiness;
+        final_score -= hunger;
+        final_score += military;
+        final_score += max_villagers;
+        final_score += fertility;
+        foreach (Ressource.TYPE key in ressource_table.Keys)
+            final_score += ressource_table[key];
+
+        return final_score;
+    }
+
         // Mutators
     public List<Villager> getVillagers()
         { return __villager_entities; }
