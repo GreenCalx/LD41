@@ -67,7 +67,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114089503549454858
 MonoBehaviour:
@@ -88,7 +90,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114275927659759106
 MonoBehaviour:
@@ -109,7 +113,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114331194342660294
 MonoBehaviour:
@@ -130,7 +136,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114500684167958146
 MonoBehaviour:
@@ -151,7 +159,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114636295871622490
 MonoBehaviour:
@@ -172,7 +182,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114701646455399634
 MonoBehaviour:
@@ -193,7 +205,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114801669146034076
 MonoBehaviour:
@@ -214,7 +228,9 @@ MonoBehaviour:
   HitSound: {fileID: 8300000, guid: 15d852849d0b8244f8c707b834371050, type: 3}
   _is_hittable: 1
   _is_alive: 0
-  _sprite: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb, type: 2}
+  _sprite_prefab: {fileID: 1032395369332646, guid: c06ae86f5d0049d41aed07e2a1d4addb,
+    type: 2}
+  _sprite: {fileID: 0}
   _sequence: {fileID: 114844279578960370}
 --- !u!114 &114844279578960370
 MonoBehaviour:
@@ -232,10 +248,10 @@ MonoBehaviour:
   - {fileID: 114331194342660294}
   - {fileID: 114028604930013542}
   - {fileID: 114089503549454858}
-  - {fileID: 114089503549454858}
-  - {fileID: 114089503549454858}
-  - {fileID: 114089503549454858}
-  - {fileID: 114089503549454858}
+  - {fileID: 114636295871622490}
+  - {fileID: 114275927659759106}
+  - {fileID: 114701646455399634}
+  - {fileID: 114701646455399634}
   _Time_Since_Start: 0
   _loop: 1
   _is_playing: 0
@@ -243,4 +259,5 @@ MonoBehaviour:
   _offset: 0
   _miss: 0
   _name: StrategyPattern_3
+  _first_stroke_color: {r: 0, g: 0, b: 0, a: 0}
   _sprite: {fileID: 0}

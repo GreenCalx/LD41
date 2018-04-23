@@ -50,7 +50,7 @@ public class Fretboard : MonoBehaviour {
         float ppu = _sprite_render.sprite.pixelsPerUnit;
 
         float position_pick_x = bounds.min.x + _pick_percentage_position * (bounds.max.x - bounds.min.x);
-        _position_pick = new Vector3(position_pick_x, 0, 0);
+        _position_pick = new Vector3(position_pick_x, transform.position.y, 0);
 
         _pick = gameObject.AddComponent<Pick>();
         _pick._width = _pick_width_percentage * (bounds.max.x - bounds.min.x) * ppu;
@@ -168,7 +168,7 @@ public class Fretboard : MonoBehaviour {
         float current_time = _sequence._Time_Since_Start;
         float hb_end = HO._offset + HO._size;
          float current_time_clipped = (HO._offset ) - current_time;
-        float hb_end_time = hb_end - current_time;
+        float hb_end_time = hb_end + 200 - (current_time);
 
         if (hb_end_time > 0)
         {
@@ -184,7 +184,7 @@ public class Fretboard : MonoBehaviour {
                 float new_position_scaled = new_position / 1000.0f;
                 if (_HitSprite)
                 {
-                    HO._sprite.transform.position = new Vector3(new_position, 0, 0);
+                    HO._sprite.transform.position = new Vector3(new_position, transform.position.y, 1);
                     //HO._sprite.transform.position = new Vector3(0, 0, 0);
                 }
             }
@@ -204,7 +204,7 @@ public class Fretboard : MonoBehaviour {
                     float new_position_scaled = new_position / 1000.0f;
                     if (_HitSprite)
                     {
-                        HO._sprite.transform.localPosition = new Vector3( new_position, 0, 0);
+                        HO._sprite.transform.localPosition = new Vector3( new_position, transform.position.y, 1);
                         //HO._sprite.transform.position = new Vector3(0, 0, 0);
                     }
                 }
