@@ -15,7 +15,7 @@ public class Pick : MonoBehaviour {
 
     public Color _color;
 
-    public KeyCode _KeyPress;
+    public string KeyMapped;
 
 	void Start () {
         Init();
@@ -52,7 +52,8 @@ public class Pick : MonoBehaviour {
 
     public void Do()
     {
-       if (Input.GetKey(_KeyPress))
+        float i = Input.GetAxis(KeyMapped);
+       if (i>0)
             _fretboard.OnPick();
     }
 
