@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a625e55f9b77b49a40393a512d1cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  users: []
   HP: 0
   goldPerMerchant: 4
   merchants: 0
@@ -88,7 +89,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7c6e0b2e6f43f3d458382a029f09dd50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
