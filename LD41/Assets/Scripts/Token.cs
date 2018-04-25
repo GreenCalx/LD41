@@ -16,7 +16,8 @@ namespace Assets.Scripts
 
         public Sequence_State sequenceState;
         // Name of the sub-strategy 
-        public string sequenceName;
+        public string sequenceName
+            ;
 
         // = SEQUENCE LENGTH, if sequence is OK
         public int sequenceHits;

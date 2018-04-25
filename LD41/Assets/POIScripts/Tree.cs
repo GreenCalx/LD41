@@ -11,7 +11,8 @@ namespace POI
     {
         public const string POI_NAME = "Tree";
         public Ressource.TYPE ressourceType = Ressource.TYPE.WOOD;
-        public int ressource_units_pool = 2000;
+        public int ressource_units_pool = 2000
+            ;
         public int wood_per_chop = 2;
         
         public Tree()
