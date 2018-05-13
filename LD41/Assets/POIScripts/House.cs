@@ -14,7 +14,7 @@ public class House : Building {
         private int houseSize = 8; // Pop increase
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
-            {Ressource.TYPE.WOOD, 250 },
+            {Ressource.TYPE.WOOD, 50 },
             {Ressource.TYPE.STONE, 0 }
         };
         //////////////////////////////////////////////

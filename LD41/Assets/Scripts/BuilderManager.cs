@@ -52,7 +52,11 @@ namespace Assets.Scripts
             foreach (Ressource.TYPE t in iCost.Keys)
                 canBuild = iCost[t] <= attachedWorld.ressource_table[t];
             if (canBuild)
+            {
                 autoBuild(iBuildingType);
+                foreach (Ressource.TYPE t in iCost.Keys)
+                    attachedWorld.ressource_table[t] -= iCost[t];
+            }
         }
 
         private void autoBuild(Building.TYPES iBuildingType)

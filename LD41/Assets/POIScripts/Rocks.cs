@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using CoreEvent = Assets.Scripts.Event;
 using Assets.Scripts;
+using Assets.POIScripts;
+
 namespace POI
 {
     public class Rocks : PointOfInterest
@@ -15,8 +17,11 @@ namespace POI
 
         public Rocks()
         {
-            MAX_USERS = 1;
-            users = new List<InternalEntities>(MAX_USERS);
+            max_users = 1;
+            users = new List<InternalEntities>(max_users);
+
+            frequency = 20;
+            _gathererTicker = new GathererTicker(frequency);
         }
 
         override public List<CoreEvent> generateEvents()
@@ -24,8 +29,12 @@ namespace POI
             List<CoreEvent> events = new List<CoreEvent>();
             foreach (InternalEntities ie in users)
             {
-                events.Add(EventBank.generateStoneEvent(ressource_per_hit));
-                ressource_units_pool -= ressource_per_hit;
+                if (readyToConsume)
+                {
+                    events.Add(EventBank.generateStoneEvent(ressource_per_hit));
+                    ressource_units_pool -= ressource_per_hit;
+                    readyToConsume = false;
+                }
             }
             return events;
         }
@@ -36,6 +45,8 @@ namespace POI
 
         void Update()
         {
+
+            gather();
 
             if (ressource_units_pool < 0)
             {

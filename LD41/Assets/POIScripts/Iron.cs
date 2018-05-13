@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts;
+using Assets.POIScripts;
 
 using CoreEvent = Assets.Scripts.Event;
 namespace POI
@@ -16,8 +17,12 @@ namespace POI
 
         public Iron()
         {
-            MAX_USERS = 1;
-            users = new List<InternalEntities>(MAX_USERS);
+            max_users = 2;
+            users = new List<InternalEntities>(max_users);
+
+            frequency = 15;
+            _gathererTicker = new GathererTicker(frequency);
+
         }
 
         override public List<CoreEvent> generateEvents()
@@ -25,8 +30,12 @@ namespace POI
             List<CoreEvent> events = new List<CoreEvent>();
             foreach (InternalEntities ie in users)
             {
-                events.Add(EventBank.generateIronEvent(ressource_per_hit));
-                ressource_units_pool -= ressource_per_hit;
+                if (readyToConsume)
+                {
+                    events.Add(EventBank.generateIronEvent(ressource_per_hit));
+                    ressource_units_pool -= ressource_per_hit;
+                    readyToConsume = false;
+                }
             }
             return events;
         }
@@ -37,6 +46,7 @@ namespace POI
 
         void Update()
         {
+            gather();
 
             if (ressource_units_pool < 0)
             {
