@@ -12,8 +12,8 @@ namespace POI
     {
         public const string POI_NAME = "Food";
         public Ressource.TYPE ressourceType = Ressource.TYPE.FOOD;
-        public int ressource_units_pool = 10000;
-        public int ressource_per_hit = 5;
+        public int ressource_units_pool = 100000;
+        public int ressource_per_hit = 6;
 
         public CropField()
         {

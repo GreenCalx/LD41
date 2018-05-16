@@ -5,6 +5,7 @@ using System.Text;
 using Assets.Scripts;
 using CoreEvent = Assets.Scripts.Event;
 using UnityEngine;
+using Assets.POIScripts;
 
 namespace POI
 {
@@ -18,8 +19,8 @@ namespace POI
 
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
-            {Ressource.TYPE.WOOD, 700 },
-            {Ressource.TYPE.STONE, 300 }
+            {Ressource.TYPE.WOOD, 70 },
+            {Ressource.TYPE.STONE, 30 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()
@@ -36,6 +37,7 @@ namespace POI
         public Market()
         {
             staticEvents = new List<CoreEvent>();
+
         }
 
         // Use this for initialization
@@ -54,6 +56,8 @@ namespace POI
         // Update is called once per frame
         void Update()
         {
+            gather();
+
             if (HP == 0)
                 Destroy();
 

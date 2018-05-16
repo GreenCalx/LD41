@@ -13,20 +13,26 @@ public class World : MonoBehaviour {
     public const int MAX_POIS = 50;
     private const int STARTER_MAX_VILLAGER = 6;
     private const int STARTER_MAX_BUILDINGS = 10;
+
     private const int STARTER_MAX_TREES = 20;
     private const int STARTER_MAX_ROCKS = 20;
     private const int STARTER_MAX_IRON = 20;
     private const int STARTER_MAX_CROPS = 20;
+
     private const int STARTER_WOOD_UNITS = 50;
     private const int STARTER_STONE_UNITS = 20;
     private const int STARTER_IRON_UNITS = 0;
     private const int STARTER_FOOD_UNITS = 25;
     private const int STARTER_GOLD_UNITS = 8;
+
     private const int STARTER_FOODSTORAGE_SIZE = 20;
+    private const int STARTER_HAPPINESS = 100;
+    private const int STARTER_MILITARY = 0;
+    private const int STARTER_HUNGER = 0;
+    private const int STARTER_FERTILITY = 1;
 
     private const int HUNGER_DIV_RATIO = 25; // 1/4th
-
-
+    private const int FERTILITY_MUL_RATE = 4;
 
     // Village stats
     public enum STATS { HAPPINESS, HUNGER, MILITARY, FERTILITY, POPULATION, MAX_POPULATION, FOOD_STORAGE }
@@ -37,7 +43,8 @@ public class World : MonoBehaviour {
     public int military { get; set; }
     public const int MAX_MILITARY = 1000;
     public int fertility { get; set; }
-    public const int MAX_FERTILITY = 1000;
+    public const int MAX_FERTILITY = 100;
+    public const int MIN_FERTILITY = 10;
     public int foodStorage { get; set; }
     public const int MAX_STORAGE = 1000;
 
@@ -73,18 +80,30 @@ public class World : MonoBehaviour {
     public int max_villagers { get; set; }
     public int population { get; set; }
     private List<Villager> __villager_entities;
-    public GameObject villagerGO;
+    public GameObject villagerGOMale;
+    public GameObject villagerGOFemale;
+    private bool lastSpawnIsMale = true;
 
+
+    // GLOBAL TICKERS
+    public Ticker villagerTicker;
 
     public World()
     {
         max_buildings = STARTER_MAX_BUILDINGS;
         max_villagers = STARTER_MAX_VILLAGER;
         max_trees = STARTER_MAX_TREES;
+
         foodStorage = STARTER_FOODSTORAGE_SIZE;
+        happiness = STARTER_HAPPINESS;
+        fertility = STARTER_FERTILITY;
+        military = STARTER_MILITARY;
+        hunger = STARTER_HUNGER;
+
         ressource_table = new Dictionary<Ressource.TYPE, int>();
         strategies = new List<Strategy>();
         events = new LinkedList<CoreEvent>();
+        villagerTicker = new Ticker();
     }
 
     // ------------------------- PRIVATE SPACE -------------------------------
@@ -186,7 +205,11 @@ public class World : MonoBehaviour {
     
     private GameObject spawnVillager()
     {
-        GameObject newVillager = Instantiate(villagerGO);
+        
+        GameObject newVillager = lastSpawnIsMale ? 
+            Instantiate(villagerGOFemale) :
+            Instantiate(villagerGOMale) ;
+        lastSpawnIsMale = ! lastSpawnIsMale;
         Villager newVillagerBehaviour = newVillager.GetComponent<Villager>();
         __villager_entities.Add(newVillagerBehaviour);
 
@@ -198,7 +221,18 @@ public class World : MonoBehaviour {
         return newVillager;
     }
 
+    private void killVillager(int n_villager)
+    {
+        for (int i=0;i< n_villager; i++)
+            if (!!__villager_entities[i])
+            { Destroy(__villager_entities[i].gameObject); __villager_entities.RemoveAt(i); break; }
 
+    }
+
+    private void startTickers()
+    {
+        villagerTicker.start();
+    }
     // ------------------------- PUBLIC SPACE -------------------------------
 
     public double getScore()
@@ -244,13 +278,14 @@ public class World : MonoBehaviour {
         // Init Default Villagers
         max_villagers = STARTER_MAX_VILLAGER;
        __villager_entities = new List<Villager>(max_villagers);
-        if (!!villagerGO)
+        if (!!villagerGOMale)
         {
             for (int i = 0; i < __villager_entities.Capacity; ++i)
             {
                 GameObject newVillager = spawnVillager();
             }//! for villager
         }// !villagerGO
+
 
             // Init Default Buildings
             max_buildings = STARTER_MAX_BUILDINGS;
@@ -284,10 +319,8 @@ public class World : MonoBehaviour {
         CropField[] cfs = GameObject.FindObjectsOfType<CropField>();
         foreach (CropField cf in cfs)
             __cropfield_pois.Add(cf);
-
         
     }
-
 
     // ------------------------- UNITY SPACE -------------------------------
 
@@ -314,6 +347,9 @@ public class World : MonoBehaviour {
 
         // Class different entities
         classEntities();
+
+        // Start time tickers ( villagers spawn, etc... )
+        startTickers();
     }  
 	
 	// Update is called once per frame
@@ -321,8 +357,9 @@ public class World : MonoBehaviour {
 
         //////////////////////////////////////////////
         // Village Stats update
-        population = __villager_entities.Count;
-
+        population  = __villager_entities.Count;
+        fertility = (population / 2) + ( (hunger/10) * (-1) );
+        fertility *= (FERTILITY_MUL_RATE + happiness/100);
 
         //////////////////////////////////////////////
         // Poll For Events
@@ -411,7 +448,7 @@ public class World : MonoBehaviour {
         military = (military < 0) ? 0 : military;
 
         fertility = (fertility > MAX_FERTILITY) ? MAX_FERTILITY : fertility;
-        fertility = (fertility < 0) ? 0 : fertility;
+        fertility = (fertility < MIN_FERTILITY) ? MIN_FERTILITY : fertility;
 
         foodStorage = (foodStorage > MAX_STORAGE) ? MAX_STORAGE : foodStorage;
         foodStorage = (foodStorage < 0) ? 0 : foodStorage;
@@ -430,8 +467,14 @@ public class World : MonoBehaviour {
                     
         }
 
-        if (population < max_villagers)
+        // Spawn a new villager
+        villagerTicker.frequencyPerMinutes = fertility;
+        bool tick = villagerTicker.tick();
+        if ( (population < max_villagers) && (hunger == 0) && tick)
             spawnVillager();
+        // Kill a villager if food is low
+        if ( (hunger >= MAX_HUNGER/2) && tick)
+            killVillager(1);
 
         // Console Dump
         dumpWorldValues();

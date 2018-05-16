@@ -14,9 +14,9 @@ namespace POI
         private int militaryValue = 10; // military increase
         public static Dictionary<Ressource.TYPE, int> cost = new Dictionary<Ressource.TYPE, int>()
         {
-            {Ressource.TYPE.WOOD, 200 },
-            {Ressource.TYPE.STONE, 600 },
-            {Ressource.TYPE.IRON, 400 }
+            {Ressource.TYPE.WOOD, 20 },
+            {Ressource.TYPE.STONE, 60 },
+            {Ressource.TYPE.IRON, 40 }
         };
         //////////////////////////////////////////////
         override public List<CoreEvent> generateEvents()

@@ -39,11 +39,11 @@ namespace POI
             // Gatherer tickers
             if (null != _gathererTicker)
             {
-                if ((users.Count > 0) && !_gathererTicker.isGathering())
-                    _gathererTicker.startCollect();
-                else if ((users.Count == 0) && _gathererTicker.isGathering())
-                    _gathererTicker.stopCollect();
-                else if (_gathererTicker.isGathering() && !readyToConsume)
+                if ((users.Count > 0) && !_gathererTicker.isTicking())
+                    _gathererTicker.start();
+                else if ((users.Count == 0) && _gathererTicker.isTicking())
+                    _gathererTicker.stop();
+                else if (_gathererTicker.isTicking() && !readyToConsume)
                     readyToConsume = _gathererTicker.tick();
             }
         }//! gather
