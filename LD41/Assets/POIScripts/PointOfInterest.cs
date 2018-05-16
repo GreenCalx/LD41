@@ -30,6 +30,12 @@ namespace POI
             }
             return false;
         }
+
+        public void unsign(InternalEntities iEntity)
+        {
+            users.Remove(iEntity);
+        }
+
         public int user_index (InternalEntities iIE)
         { return users.IndexOf(iIE); }
 
@@ -47,6 +53,9 @@ namespace POI
                     readyToConsume = _gathererTicker.tick();
             }
         }//! gather
+
+        void Update()
+        { }
 
         // EVENTS
         public abstract List<CoreEvent> generateEvents();

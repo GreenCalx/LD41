@@ -16,6 +16,11 @@ namespace Assets.Scripts
         private World attachedWorld;
         private int unit_ressource_consumption = 2; // EATS THIS MUCH
 
+        ~Villager()
+        {
+            used_poi.unsign(this);
+        }
+
         public void teleportToPOI(PointOfInterest POI)
         {
             if (!!POI)
@@ -50,7 +55,7 @@ namespace Assets.Scripts
                 {
                     // Teleport to PoI
                     teleportToPOI(tree);
-
+                    used_poi = tree;
                     currentState = STATE.BUSY;
                     foundAJob = true;
                     break;
@@ -76,6 +81,7 @@ namespace Assets.Scripts
                 {
                     // Teleport to PoI
                     teleportToPOI(rock);
+                    used_poi = rock;
                     foundAJob = true;
                     currentState = STATE.BUSY;
                     break;
@@ -100,6 +106,7 @@ namespace Assets.Scripts
                 {
                     // Teleport to PoI
                     teleportToPOI(iron);
+                    used_poi = iron;
 
                     foundAJob = true;
                     currentState = STATE.BUSY;
@@ -124,6 +131,7 @@ namespace Assets.Scripts
                 {
                     // Teleport to PoI
                     teleportToPOI(cf);
+                    used_poi = cf;
 
                     foundAJob = true;
                     currentState = STATE.BUSY;
